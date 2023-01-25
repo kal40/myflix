@@ -31,6 +31,11 @@ const MainView = () => {
   }, []);
 
   if (selectedMovie) {
+    let similarMovies = movies.filter(
+      (movie) =>
+        movie.genre.name === selectedMovie.genre.name &&
+        movie.title !== selectedMovie.title
+    );
     return (
       <React.Fragment>
         <MovieView
@@ -39,6 +44,19 @@ const MainView = () => {
             setSelectedMovie(null);
           }}
         />
+        <hr />
+        <h2>Similar Movies</h2>
+        {similarMovies.map((movie) => {
+          return (
+            <MovieCard
+              key={movie.id}
+              movie={movie}
+              onMovieClick={(newSelectedmovie) => {
+                setSelectedMovie(newSelectedmovie);
+              }}
+            />
+          );
+        })}
       </React.Fragment>
     );
   }
