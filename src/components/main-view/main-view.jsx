@@ -2,16 +2,26 @@ import React, { useEffect, useState } from "react";
 
 import MovieCard from "../movie-card/movie-card";
 import MovieView from "../movie-view/movie-view";
+import LoginView from "../login-view/login-view";
+import SignupView from "../signup-view/signup-view";
 
 const MainView = () => {
+  const storedUser = localStorage.getItem("user");
+  const storedToken = localStorage.getItem("token");
+  const [user, setUser] = useState(storedUser ? storedUser : null);
+  const [token, setToken] = useState(storedToken ? storedToken : null);
   const [movies, setMovies] = useState([]);
-
   const [selectedMovie, setSelectedMovie] = useState(null);
 
   useEffect(() => {
+    if (!token) return;
+
     async function fetchMovies() {
       const response = await fetch(
-        "https://myflixapi.smartcoder.dev/v1/movies"
+        "https://myflixapi.smartcoder.dev/v1/movies",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
       const data = await response.json();
 
@@ -28,7 +38,22 @@ const MainView = () => {
       setMovies(moviesFromAPI);
     }
     fetchMovies();
-  }, []);
+  }, [token]);
+
+  if (!user) {
+    return (
+      <React.Fragment>
+        <LoginView
+          onLoggedIn={(user, token) => {
+            setUser(user);
+            setToken(token);
+          }}
+        />{" "}
+        or
+        <SignupView />
+      </React.Fragment>
+    );
+  }
 
   if (selectedMovie) {
     let similarMovies = movies.filter(
@@ -75,6 +100,15 @@ const MainView = () => {
             />
           );
         })}
+        <button
+          onClick={() => {
+            setUser(null);
+            setToken(null);
+            localStorage.clear();
+          }}
+        >
+          Logout
+        </button>
       </React.Fragment>
     );
   } else {
