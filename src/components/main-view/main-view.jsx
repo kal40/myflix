@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
 
 import MovieCard from "../movie-card/movie-card";
 import MovieView from "../movie-view/movie-view";
@@ -40,38 +43,38 @@ const MainView = () => {
     fetchMovies();
   }, [token]);
 
-  if (!user) {
-    return (
-      <React.Fragment>
-        <LoginView
-          onLoggedIn={(user, token) => {
-            setUser(user);
-            setToken(token);
-          }}
-        />{" "}
-        or
-        <SignupView />
-      </React.Fragment>
-    );
-  }
-
-  if (selectedMovie) {
-    let similarMovies = movies.filter(
+  let similarMovies = () =>
+    movies.filter(
       (movie) =>
         movie.genre.name === selectedMovie.genre.name &&
         movie.title !== selectedMovie.title
     );
-    return (
-      <React.Fragment>
-        <MovieView
-          movie={selectedMovie}
-          onBackClick={() => {
-            setSelectedMovie(null);
-          }}
-        />
+
+  return !user ? (
+    <React.Fragment>
+      <LoginView
+        onLoggedIn={(user, token) => {
+          setUser(user);
+          setToken(token);
+        }}
+      />{" "}
+      or
+      <SignupView />
+    </React.Fragment>
+  ) : selectedMovie ? (
+    <React.Fragment>
+      <Row className="justify-content-md-center py-5">
+        <Col md={8} className="mb-5">
+          <MovieView
+            movie={selectedMovie}
+            onBackClick={() => {
+              setSelectedMovie(null);
+            }}
+          />
+        </Col>
         <hr />
         <h2>Similar Movies</h2>
-        {similarMovies.map((movie) => {
+        {similarMovies().map((movie) => {
           return (
             <MovieCard
               key={movie.id}
@@ -82,13 +85,11 @@ const MainView = () => {
             />
           );
         })}
-      </React.Fragment>
-    );
-  }
-
-  if (movies.length) {
-    return (
-      <React.Fragment>
+      </Row>
+    </React.Fragment>
+  ) : movies.length ? (
+    <React.Fragment>
+      <Row className="justify-content-md-center py-5">
         {movies.map((movie) => {
           return (
             <MovieCard
@@ -100,20 +101,21 @@ const MainView = () => {
             />
           );
         })}
-        <button
+        <Button
           onClick={() => {
             setUser(null);
             setToken(null);
             localStorage.clear();
+            className = "btn-primary";
           }}
         >
           Logout
-        </button>
-      </React.Fragment>
-    );
-  } else {
-    return <React.Fragment>The movie list is empty!</React.Fragment>;
-  }
+        </Button>
+      </Row>
+    </React.Fragment>
+  ) : (
+    <React.Fragment>The movie list is empty!</React.Fragment>
+  );
 };
 
 export default MainView;

@@ -1,0 +1,21 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Oswald:wght@500&display=swap");
+
+$font-family-sans-serif: -apple-system, "Montserrat", Roboto, "Helvetica Neue",
+  "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji",
+  "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+$primary: #f65058ff;
+$secondary: #fbde44ff;
+// $success: $green;
+// $info: $cyan;
+// $warning: $yellow;
+// $danger: $red;
+// $light: $gray-100;
+$dark: #2a2e35;
+
+$headings-font-family: -apple-system, "Oswald", Roboto, "Helvetica Neue",
+  "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji",
+  "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$headings-color: $primary;
+
+$card-bg: #343a40;
