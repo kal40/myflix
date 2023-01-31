@@ -1,0 +1,37 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Oswald:wght@500&display=swap");
+
+$font-family-sans-serif: -apple-system, "Montserrat", Roboto, "Helvetica Neue",
+  "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji",
+  "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+$primary: #f65058ff;
+$secondary: #fbde44ff;
+// $success: $green;
+// $info: $cyan;
+// $warning: $yellow;
+// $danger: $red;
+// $light: $gray-100;
+$dark: #2a2e35;
+
+$headings-color: $primary;
+
+$card-bg: #343a40ed;
+$box-shadow-lg: 0 1rem 3rem rgba(#000, 1);
+
+.logo {
+  font-family: "Oswald", sans-serif;
+}
+
+.root--cover::before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.65;
+  background-image: url("./components/login-view/cover.jpg");
+  background-blend-mode: luminosity;
+  background-size: "cover";
+  background-repeat: repeat;
+}

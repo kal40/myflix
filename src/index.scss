@@ -1,9 +1,2 @@
-$color: steelblue;
-
-.myflix {
-  color: $color;
-}
-
-img {
-  height: 500px;
-}
+@import "./custom-bs";
+@import "~bootstrap/scss/bootstrap";
