@@ -11,7 +11,7 @@ const MovieCard = ({ movie, onMovieClick }) => {
           variant="top"
           src={movie.imagePath}
           className="rounded-4"
-          style={{ "object-fit": "cover" }}
+          style={{ objectFit: "cover" }}
         />
         <Card.Body>
           <Card.Title>{movie.title}</Card.Title>

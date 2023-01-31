@@ -50,8 +50,15 @@ const MainView = () => {
         movie.title !== selectedMovie.title
     );
 
+  const updateRootHtmlClass = (styleClassName) => {
+    const container = document.querySelector("#root");
+    container.className = "";
+    container.classList.add(styleClassName);
+  };
+
   return !user ? (
     <React.Fragment>
+      {updateRootHtmlClass("root--cover")}
       <LoginView
         onLoggedIn={(user, token) => {
           setUser(user);
@@ -89,6 +96,8 @@ const MainView = () => {
     </React.Fragment>
   ) : movies.length ? (
     <React.Fragment>
+      {updateRootHtmlClass("text-bg-dark")}
+
       <Row className="justify-content-md-center py-5">
         {movies.map((movie) => {
           return (

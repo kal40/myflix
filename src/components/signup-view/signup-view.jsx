@@ -40,7 +40,7 @@ const SignupView = () => {
   return (
     <React.Fragment>
       <Row className="py-5">
-        <Col md={8} xl={6} className="text-center mx-auto">
+        <Col md={8} xl={6} className="text-center mx-auto logo">
           <h1 className="d-flex align-items-center justify-content-center">
             <span className="px-3 fs-1">MyFlix</span>
 
@@ -57,37 +57,37 @@ const SignupView = () => {
                 />
                 <path
                   fill="#a5d1a6"
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="m -1204.1374,2597.5431 2.4756,-4.2398 3.3818,-0.896 -2.4756,4.2399 z"
                 />
                 <path
                   fill="#7fc8f0"
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="m -1197.1768,2595.5543 2.4756,-4.2398 3.3818,-0.896 -2.4756,4.2399 z"
                 />
                 <path
                   fill="#e2e0e1"
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="m -1190.6456,2593.9918 2.4756,-4.2398 3.3818,-0.896 -2.4756,4.2399 z"
                 />
                 <path
                   fill="#8f9ba7"
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="m -1187.2054,2593.029 2.4756,-4.2399 0.4831,-0.128 0.9062,3.3439 z"
                 />
                 <path
                   fill="#fb848a"
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="m -1190.5872,2593.925 2.4756,-4.2399 -3.3817,0.896 -2.4757,4.2399 z"
                 />
                 <path
                   fill="#fbda74"
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="m -1200.7325,2596.613 2.4756,-4.2399 3.3818,-0.896 -2.4757,4.2399 z"
                 />
                 <path
                   fill="#e2e0e1"
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="m -1207.4961,2598.4049 2.4756,-4.2398 3.3818,-0.896 -2.4756,4.2399 z"
                 />
                 <path
@@ -101,8 +101,8 @@ const SignupView = () => {
                   y="2199.06"
                   fill="none"
                   stroke="#586597"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   transform="matrix(.96665 -.25611 .26155 .96519 0 0)"
                 />
                 <path
@@ -113,8 +113,8 @@ const SignupView = () => {
                 <path
                   fill="none"
                   stroke="#586597"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M-1182.3375 2603.1641v13.5c0 1.1046-.8954 2-2 2h-23c-1.1046 0-2-.8954-2-2v-13.5M-1205.8304 2606.1641h19.9858M-1205.8304 2611.6641h19.9858"
                 />
                 <path
@@ -133,43 +133,43 @@ const SignupView = () => {
                   />
                   <path
                     fill="#fbda74"
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     stroke="none"
                     d="m -18.358756,1080.3622 3.500001,-3.5 h -3.500001 l -3.499999,3.5 z"
                   />
                   <path
                     fill="#fb848a"
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     stroke="none"
                     d="m -25.608756,1080.3622 3.500001,-3.5 h -3.500001 l -3.499999,3.5 z"
                   />
                   <path
                     fill="#e2e0e1"
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     stroke="none"
                     d="m -11.508659,1080.3622 3.5000009,-3.5 h -3.5000009 l -3.499999,3.5 z"
                   />
                   <path
                     fill="#8f9ba7"
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     stroke="none"
                     d="m -11.499998,1080.3622 3.4999978,-3.5 H -7.5 v 3.5 z"
                   />
                   <path
                     fill="#a5d1a6"
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     stroke="none"
                     d="m -14.999999,1080.3622 3.500001,-3.5 h -3.500001 l -3.499999,3.5 z"
                   />
                   <path
                     fill="#7fc8f0"
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     stroke="none"
                     d="m -25.499998,1080.3622 3.499999,-3.5 h 3.500001 l -3.5,3.5 z"
                   />
                   <path
                     fill="#e2e0e1"
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     stroke="none"
                     d="m -32.499999,1080.3622 3.5,-3.5 h 3.500001 l -3.500001,3.5 z"
                   />
@@ -179,8 +179,8 @@ const SignupView = () => {
                     x="-34.5"
                     y="1076.862"
                     fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                   <path
                     fill="none"
@@ -190,8 +190,8 @@ const SignupView = () => {
                 <path
                   fill="none"
                   stroke="#586597"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="m -1205.8304,2615.1641 h 19.9858"
                 />
                 <path
@@ -202,7 +202,9 @@ const SignupView = () => {
               </g>
             </svg>
           </h1>
-          <p className="text-muted lead">A place for your favorite movies</p>
+          <p className="fs-5 text-primary text-opacity-75">
+            <em>A place for your favorite movies</em>
+          </p>
         </Col>
       </Row>
       <Row className="d-flex justify-content-center">

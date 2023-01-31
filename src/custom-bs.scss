@@ -13,9 +13,25 @@ $secondary: #fbde44ff;
 // $light: $gray-100;
 $dark: #2a2e35;
 
-$headings-font-family: -apple-system, "Oswald", Roboto, "Helvetica Neue",
-  "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji",
-  "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 $headings-color: $primary;
 
-$card-bg: #343a40;
+$card-bg: #343a40ed;
+$box-shadow-lg: 0 1rem 3rem rgba(#000, 1);
+
+.logo {
+  font-family: "Oswald", sans-serif;
+}
+
+.root--cover::before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.65;
+  background-image: url("./components/login-view/cover.jpg");
+  background-blend-mode: luminosity;
+  background-size: "cover";
+  background-repeat: repeat;
+}
