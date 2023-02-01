@@ -229,6 +229,7 @@ const SignupView = () => {
                     placeholder="Username"
                     value={username}
                     onChange={(error) => setUsername(error.target.value)}
+                    autoComplete="username"
                     minLength="3"
                     maxLength="20"
                     required
@@ -241,6 +242,7 @@ const SignupView = () => {
                     placeholder="Password"
                     value={password}
                     onChange={(error) => setPassword(error.target.value)}
+                    autoComplete="new-password"
                     required
                   />
                 </Form.Group>

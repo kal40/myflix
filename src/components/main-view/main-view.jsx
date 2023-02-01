@@ -50,10 +50,12 @@ const MainView = () => {
         movie.title !== selectedMovie.title
     );
 
-  const updateRootHtmlClass = (styleClassName) => {
+  const updateRootHtmlClass = (...styleClassNames) => {
     const container = document.querySelector("#root");
     container.className = "";
-    container.classList.add(styleClassName);
+    styleClassNames.forEach((styleClassName) =>
+      container.classList.add(styleClassName)
+    );
   };
 
   return !user ? (
@@ -65,8 +67,6 @@ const MainView = () => {
           setToken(token);
         }}
       />{" "}
-      or
-      <SignupView />
     </React.Fragment>
   ) : selectedMovie ? (
     <React.Fragment>

@@ -18,10 +18,6 @@ $headings-color: $primary;
 $card-bg: #343a40ed;
 $box-shadow-lg: 0 1rem 3rem rgba(#000, 1);
 
-.logo {
-  font-family: "Oswald", sans-serif;
-}
-
 .root--cover::before {
   content: "";
   position: absolute;
@@ -31,7 +27,6 @@ $box-shadow-lg: 0 1rem 3rem rgba(#000, 1);
   left: 0px;
   opacity: 0.65;
   background-image: url("./components/login-view/cover.jpg");
-  background-blend-mode: luminosity;
   background-size: "cover";
   background-repeat: repeat;
 }
