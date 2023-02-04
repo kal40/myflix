@@ -8,7 +8,7 @@ import MainView from "./components/main-view/main-view";
 
 const MyFlixApplication = () => {
   return (
-    <Container>
+    <Container fluid className="">
       <MainView />
     </Container>
   );

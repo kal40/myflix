@@ -1,32 +1,41 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Oswald:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=Montserrat:wght@300;400;600;700&display=swap");
 
-$font-family-sans-serif: -apple-system, "Montserrat", Roboto, "Helvetica Neue",
+$font-family-sans-serif: -apple-system, "Oswald", Roboto, "Helvetica Neue",
   "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji",
   "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
-$primary: #f65058ff;
-$secondary: #fbde44ff;
+$primary: #dc3522;
+$secondary: #d9cb9e;
 // $success: $green;
 // $info: $cyan;
 // $warning: $yellow;
 // $danger: $red;
 // $light: $gray-100;
-$dark: #2a2e35;
+$dark: #1e1e20;
+$light: $secondary;
 
-$headings-color: $primary;
+// $headings-color: $primary;
 
-$card-bg: #343a40ed;
+$card-bg: #374140;
 $box-shadow-lg: 0 1rem 3rem rgba(#000, 1);
+
+$navbar-dark-color: rgba($secondary, 0.55);
+$navbar-dark-hover-color: rgba($secondary, 0.75);
+$navbar-dark-active-color: $secondary;
+$navbar-dark-disabled-color: rgba($secondary, 0.25);
+$navbar-dark-toggler-border-color: rgba($secondary, 0.1);
 
 .root--cover::before {
   content: "";
+  display: inline-block;
   position: absolute;
   top: 0px;
   right: 0px;
   bottom: 0px;
   left: 0px;
+  height: 100%;
   opacity: 0.65;
-  background-image: url("./components/login-view/cover.jpg");
-  background-size: "cover";
+  background-image: url("../components/login-view/cover.jpg");
+  background-size: cover;
   background-repeat: repeat;
 }

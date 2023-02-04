@@ -4,5 +4,20 @@
       "path": "/home/kal/repositories/myflix"
     }
   ],
-  "settings": {}
+  "settings": {},
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Launch Chrome",
+        "request": "launch",
+        "type": "msedge",
+        "url": "http://localhost:1234",
+        "webRoot": "${workspaceFolder}",
+        "sourceMapPathOverrides": {
+          "/__parcel_source_root/*": "${webRoot}/*"
+        }
+      }
+    ]
+  }
 }
