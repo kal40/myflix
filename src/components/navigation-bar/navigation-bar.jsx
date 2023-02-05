@@ -45,7 +45,10 @@ const NavigationBar = ({ username, onLoggedOut }) => {
               </React.Fragment>
             )}
           </Nav>
-          <Nav>
+          <Nav className="align-items-center">
+            <Nav.Link as={Link} to="/profile">
+              <span>{username}</span>
+            </Nav.Link>
             <Nav.Link as={Link} to="/profile">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 import myFlixLogo from "../login-view/MyFlix-1.png";
 
-const SignupView = () => {
+const SignupView = ({ onSignedUp }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -34,7 +34,7 @@ const SignupView = () => {
     const { success, message, data } = await response.json();
     if (success) {
       alert(message);
-      window.location.reload();
+      onSignedUp();
     } else {
       alert("Signup failed");
     }
@@ -48,8 +48,7 @@ const SignupView = () => {
             <Card.Img
               src={myFlixLogo}
               alt="MyFlix Logo"
-              className="mx-auto mb-3"
-              style={{ backgroundColor: "#f65058" }}
+              className="mx-auto mb-3 bg-primary"
             />
             <Card.Body className="d-flex flex-column align-items-center px-0">
               <Form onSubmit={handleSubmit} className="w-100">

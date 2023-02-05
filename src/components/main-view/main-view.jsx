@@ -27,6 +27,7 @@ const MainView = () => {
   });
 
   const [favoriteMovies, setFavoriteMovies] = useState([]);
+  const [signedUpSuccess, setSignedUpSuccess] = useState(false);
 
   const toggleFavorite = (movie) => {
     const index = favoriteMovies.indexOf(movie);
@@ -142,12 +143,8 @@ const MainView = () => {
     setFavoriteMovies([...initFavoriteMovies]);
   }, [movies, user]);
 
-  // let similarMovies = () =>
-  //   movies.filter(
-  //     (movie) =>
-  //       movie.genre.name === selectedMovie.genre.name &&
-  //       movie.title !== selectedMovie.title
-  //   );
+  const findSimilarMovies = (genre) =>
+    movies.filter((movie) => movie.genre.name === genre);
 
   const updateRootHtmlClass = (...styleClassNames) => {
     const container = document.querySelector("#root");
@@ -178,7 +175,11 @@ const MainView = () => {
           path="/signup"
           element={
             <React.Fragment>
-              {username ? <Navigate to="/" /> : <SignupView />}
+              {username || signedUpSuccess ? (
+                <Navigate to="/" />
+              ) : (
+                <SignupView onSignedUp={() => setSignedUpSuccess(true)} />
+              )}
             </React.Fragment>
           }
         />
@@ -210,13 +211,13 @@ const MainView = () => {
               ) : (
                 <Row className="justify-content-center py-5">
                   <Col md={8} className="mb-5">
-                    <MovieView movies={movies} />
+                    <MovieView
+                      movies={movies}
+                      findSimilarMovies={findSimilarMovies}
+                      favoriteMovies={favoriteMovies}
+                      toggleFavorite={toggleFavorite}
+                    />
                   </Col>
-                  {/* <hr />
-                  <h2>Similar Movies</h2>
-                  {similarMovies().map((movie) => {
-                    return <MovieCard movie={movie} />;
-                  })} */}
                 </Row>
               )}
             </React.Fragment>

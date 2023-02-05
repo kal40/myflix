@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { Link } from "react-router-dom";
 
 import avatar from "./person-circle.svg";
 import MovieCard from "../movie-card/movie-card";
@@ -22,6 +21,14 @@ const ProfileView = ({
   const [password, setPassword] = useState(user.password);
   const [email, setEmail] = useState(user.email);
   const [birthday, setBirthday] = useState(user.birthday);
+  const birthdayInputRef = useRef(null);
+
+  useEffect(() => {
+    if (birthdayInputRef.current) {
+      birthdayInputRef.current.value = formatDate(birthday);
+    }
+  }, [updateUser]);
+
   const handleUpdate = async () => {
     event.preventDefault();
 
@@ -31,24 +38,28 @@ const ProfileView = ({
       email: email,
       birthday: birthday,
     };
-
-    const response = await fetch(
-      `https://myflixapi.smartcoder.dev/v1/users/${user.username}`,
-      {
-        method: "PUT",
-        body: JSON.stringify(userData),
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
+    try {
+      const response = await fetch(
+        `https://myflixapi.smartcoder.dev/v1/users/${user.username}`,
+        {
+          method: "PUT",
+          body: JSON.stringify(userData),
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const { success, message, data } = await response.json();
+      if (success) {
+        alert(message);
+        setUpdateUser(false);
+      } else {
+        console.error(message);
+        alert("Update failed");
       }
-    );
-    const { success, message, data } = await response.json();
-    if (success) {
-      alert(message);
-      window.location.reload();
-    } else {
-      alert("Update failed");
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -82,9 +93,15 @@ const ProfileView = ({
   const formatDate = (birthday) => {
     const date = new Date(birthday);
     const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    return `${year}-${month}-${day}`;
+    let month = date.getMonth() + 1;
+    let dayOfTheMonth = date.getDate();
+    if (month < 10) {
+      month = `0${month}`;
+    }
+    if (dayOfTheMonth < 10) {
+      dayOfTheMonth = `0${dayOfTheMonth}`;
+    }
+    return `${year}-${month}-${dayOfTheMonth}`;
   };
 
   return (
@@ -110,17 +127,17 @@ const ProfileView = ({
                 </Card.Body>
                 <ListGroup className="text-start">
                   <ListGroup.Item className="text-bg-dark">
-                    Username: {user.username}
+                    Username: {username}
                   </ListGroup.Item>
                   <ListGroup.Item className="text-bg-dark">
                     Password: **********
                   </ListGroup.Item>
 
                   <ListGroup.Item className="text-bg-dark">
-                    Email: {user.email}
+                    Email: {email}
                   </ListGroup.Item>
                   <ListGroup.Item className="text-bg-dark">
-                    Birthday: {formatDate(user.birthday)}
+                    Birthday: {formatDate(birthday)}
                   </ListGroup.Item>
                 </ListGroup>
                 <Card.Body>
@@ -158,7 +175,7 @@ const ProfileView = ({
                       <Form.Control
                         type="text"
                         placeholder="Username"
-                        defaultValue={user.username}
+                        defaultValue={username}
                         onChange={(event) => setUsername(event.target.value)}
                         autoComplete="username"
                         minLength="3"
@@ -170,7 +187,7 @@ const ProfileView = ({
                       <Form.Control
                         type="password"
                         placeholder="Password"
-                        defaultValue={user.password}
+                        defaultValue={password}
                         onChange={(event) => setPassword(event.target.value)}
                         autoComplete="current-password"
                         required
@@ -180,7 +197,7 @@ const ProfileView = ({
                       <Form.Control
                         type="email"
                         placeholder="Email"
-                        defaultValue={user.email}
+                        defaultValue={email}
                         onChange={(event) => setEmail(event.target.value)}
                         autoComplete="email"
                         required
@@ -193,6 +210,7 @@ const ProfileView = ({
                         placeholder="Birthday"
                         onChange={(event) => setBirthday(event.target.value)}
                         autoComplete="date"
+                        ref={birthdayInputRef}
                         required
                       />
                     </Form.Group>
@@ -201,11 +219,9 @@ const ProfileView = ({
                       <Button variant="primary" type="submit">
                         SAVE
                       </Button>
-                      <Link to="/login">
-                        <Button variant="primary" onClick={handleDeleteUser}>
-                          DELETE
-                        </Button>
-                      </Link>
+                      <Button variant="primary" onClick={handleDeleteUser}>
+                        DELETE
+                      </Button>
                       <Button
                         variant="primary"
                         onClick={() => setUpdateUser(false)}
@@ -225,7 +241,7 @@ const ProfileView = ({
             favoriteMovies.map((movie) => (
               <MovieCard
                 movie={movie}
-                isFavorite="true"
+                isFavorite={true}
                 toggleFavorite={handleToggle}
                 key={movie.id}
               />

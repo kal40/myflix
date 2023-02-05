@@ -1,13 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+import Row from "react-bootstrap/Row";
 
-const MovieView = ({ movies }) => {
+import MovieCard from "../movie-card/movie-card";
+
+const MovieView = ({
+  movies,
+  findSimilarMovies,
+  favoriteMovies,
+  toggleFavorite,
+}) => {
   const { movieId } = useParams();
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const movie = movies.find((b) => b.id === movieId);
+
+  const handleToggle = (movie) => {
+    toggleFavorite(movie);
+  };
 
   return (
     <React.Fragment>
@@ -31,6 +47,18 @@ const MovieView = ({ movies }) => {
       <Link to={`/`}>
         <Button className="btn-primary">BACK</Button>
       </Link>
+      <hr />
+      <Row className="justify-content-center py-5">
+        <h2 className="text-center mb-5">Similar Movies</h2>
+        {findSimilarMovies(movie.genre.name).map((movie) => (
+          <MovieCard
+            movie={movie}
+            isFavorite={favoriteMovies.includes(movie)}
+            toggleFavorite={handleToggle}
+            key={movie.id}
+          />
+        ))}
+      </Row>
     </React.Fragment>
   );
 };

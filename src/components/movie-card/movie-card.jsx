@@ -1,3 +1,4 @@
+import React from "react";
 import PropTypes from "prop-types";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -65,7 +66,7 @@ const MovieCard = ({ movie, isFavorite, toggleFavorite }) => {
             )}
           </Button>
         </Card.ImgOverlay>
-        <Card.Body>
+        <Card.Body className="d-flex flex-column ">
           <Card.Title>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +97,7 @@ const MovieCard = ({ movie, isFavorite, toggleFavorite }) => {
             </svg>
             {movie.director.name}
           </Card.Text>
-          <div className="text-center">
+          <div className="text-center mt-auto">
             <Link to={`/movies/${encodeURIComponent(movie.id)}`}>
               <Button variant="primary">DETAILS</Button>
             </Link>

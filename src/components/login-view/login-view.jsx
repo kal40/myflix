@@ -44,13 +44,12 @@ const LoginView = ({ onLoggedIn }) => {
   return (
     <React.Fragment>
       <Row className="d-flex justify-content-center align-content-center vh-100">
-        <Col sm={7} md={5} lg={4} xl={3} xxl={2}>
+        <Col sm={6} md={4} lg={4} xl={3} xxl={2}>
           <Card className="p-4 rounded-4 shadow-lg m-3">
             <Card.Img
               src={myFlixLogo}
               alt="MyFlix Logo"
               className="mx-auto mb-3 bg-primary"
-              // style={{ backgroundColor: "#f65058" }}
             />
             <Card.Body className="d-flex flex-column align-items-center px-0">
               <Form onSubmit={handleSubmit} className="w-100">
