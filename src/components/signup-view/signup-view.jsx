@@ -1,256 +1,85 @@
 import React, { useState } from "react";
-import { Card } from "react-bootstrap";
+import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { Link } from "react-router-dom";
 
-const SignupView = () => {
+import myFlixLogo from "../login-view/MyFlix-1.png";
+
+const SignupView = ({ onSignedUp }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const data = {
+    const userData = {
       username: username,
       password: password,
       email: email,
       birthday: birthday,
     };
 
-    fetch("https://myflixapi.smartcoder.dev/v1/users", {
+    const response = await fetch("https://myflixapi.smartcoder.dev/v1/users", {
       method: "POST",
-      body: JSON.stringify(data),
+      body: JSON.stringify(userData),
       headers: {
         "Content-Type": "application/json",
       },
-    }).then((response) => {
-      if (response.ok) {
-        alert("Signup successful");
-        window.location.reload();
-      } else {
-        alert("Signup failed");
-      }
     });
+    const { success, message, data } = await response.json();
+    if (success) {
+      alert(message);
+      onSignedUp();
+    } else {
+      alert("Signup failed");
+    }
   };
 
   return (
     <React.Fragment>
-      <Row className="py-5">
-        <Col md={8} xl={6} className="text-center mx-auto logo">
-          <h1 className="d-flex align-items-center justify-content-center">
-            <span className="px-3 fs-1">MyFlix</span>
-
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="48"
-              height="48"
-              viewBox="0 0 8.467 8.467"
-            >
-              <g transform="translate(320.764 -684.652) scale(.26458)">
-                <path
-                  fill="#8f9ba7"
-                  d="m -1210.3347,2595.573 26.0881,-6.9119 0.9061,3.3439 -26.088,6.9119 z"
-                />
-                <path
-                  fill="#a5d1a6"
-                  fillRule="evenodd"
-                  d="m -1204.1374,2597.5431 2.4756,-4.2398 3.3818,-0.896 -2.4756,4.2399 z"
-                />
-                <path
-                  fill="#7fc8f0"
-                  fillRule="evenodd"
-                  d="m -1197.1768,2595.5543 2.4756,-4.2398 3.3818,-0.896 -2.4756,4.2399 z"
-                />
-                <path
-                  fill="#e2e0e1"
-                  fillRule="evenodd"
-                  d="m -1190.6456,2593.9918 2.4756,-4.2398 3.3818,-0.896 -2.4756,4.2399 z"
-                />
-                <path
-                  fill="#8f9ba7"
-                  fillRule="evenodd"
-                  d="m -1187.2054,2593.029 2.4756,-4.2399 0.4831,-0.128 0.9062,3.3439 z"
-                />
-                <path
-                  fill="#fb848a"
-                  fillRule="evenodd"
-                  d="m -1190.5872,2593.925 2.4756,-4.2399 -3.3817,0.896 -2.4757,4.2399 z"
-                />
-                <path
-                  fill="#fbda74"
-                  fillRule="evenodd"
-                  d="m -1200.7325,2596.613 2.4756,-4.2399 3.3818,-0.896 -2.4757,4.2399 z"
-                />
-                <path
-                  fill="#e2e0e1"
-                  fillRule="evenodd"
-                  d="m -1207.4961,2598.4049 2.4756,-4.2398 3.3818,-0.896 -2.4756,4.2399 z"
-                />
-                <path
-                  fill="#cfe1eb"
-                  d="m -1209.3375,2603.1641 h 27 v 13.5 c 0,1.1046 -0.8954,2 -2,2 h -23 c -1.1046,0 -2,-0.8954 -2,-2 z"
-                />
-                <rect
-                  width="26.988"
-                  height="3.464"
-                  x="-1847.11"
-                  y="2199.06"
-                  fill="none"
-                  stroke="#586597"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  transform="matrix(.96665 -.25611 .26155 .96519 0 0)"
-                />
-                <path
-                  fill="none"
-                  stroke="#586597"
-                  d="M-1207.4961 2598.4049l2.4756-4.2398M-1204.1143 2597.509l2.4756-4.2399M-1200.7325 2596.613l2.4756-4.2399M-1197.3508 2595.717l2.4757-4.2399M-1193.969 2594.821l2.4757-4.2399M-1190.5872 2593.925l2.4756-4.2399M-1187.2054 2593.029l2.4756-4.2399"
-                />
-                <path
-                  fill="none"
-                  stroke="#586597"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M-1182.3375 2603.1641v13.5c0 1.1046-.8954 2-2 2h-23c-1.1046 0-2-.8954-2-2v-13.5M-1205.8304 2606.1641h19.9858M-1205.8304 2611.6641h19.9858"
-                />
-                <path
-                  fill="none"
-                  stroke="#586597"
-                  d="M-1199.3375 2606.1641v5.5M-1192.3375 2606.1641v5.5"
-                />
-                <g
-                  stroke="#586597"
-                  transform="matrix(-1 0 0 1 -1216.838 1522.802)"
-                >
-                  <path
-                    fill="#8f9ba7"
-                    stroke="none"
-                    d="m -34.5,1076.8622 h 27 v 3.5 h -27 z"
-                  />
-                  <path
-                    fill="#fbda74"
-                    fillRule="evenodd"
-                    stroke="none"
-                    d="m -18.358756,1080.3622 3.500001,-3.5 h -3.500001 l -3.499999,3.5 z"
-                  />
-                  <path
-                    fill="#fb848a"
-                    fillRule="evenodd"
-                    stroke="none"
-                    d="m -25.608756,1080.3622 3.500001,-3.5 h -3.500001 l -3.499999,3.5 z"
-                  />
-                  <path
-                    fill="#e2e0e1"
-                    fillRule="evenodd"
-                    stroke="none"
-                    d="m -11.508659,1080.3622 3.5000009,-3.5 h -3.5000009 l -3.499999,3.5 z"
-                  />
-                  <path
-                    fill="#8f9ba7"
-                    fillRule="evenodd"
-                    stroke="none"
-                    d="m -11.499998,1080.3622 3.4999978,-3.5 H -7.5 v 3.5 z"
-                  />
-                  <path
-                    fill="#a5d1a6"
-                    fillRule="evenodd"
-                    stroke="none"
-                    d="m -14.999999,1080.3622 3.500001,-3.5 h -3.500001 l -3.499999,3.5 z"
-                  />
-                  <path
-                    fill="#7fc8f0"
-                    fillRule="evenodd"
-                    stroke="none"
-                    d="m -25.499998,1080.3622 3.499999,-3.5 h 3.500001 l -3.5,3.5 z"
-                  />
-                  <path
-                    fill="#e2e0e1"
-                    fillRule="evenodd"
-                    stroke="none"
-                    d="m -32.499999,1080.3622 3.5,-3.5 h 3.500001 l -3.500001,3.5 z"
-                  />
-                  <rect
-                    width="27"
-                    height="3.5"
-                    x="-34.5"
-                    y="1076.862"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    fill="none"
-                    d="M-32.499999 1080.3622l3.5-3.5M-28.999999 1080.3622l3.500001-3.5M-25.499998 1080.3622l3.499999-3.5M-21.999998 1080.3622l3.5-3.5M-18.499998 1080.3622l3.499999-3.5M-14.999999 1080.3622l3.500001-3.5M-11.499998 1080.3622l3.4999978-3.5"
-                  />
-                </g>
-                <path
-                  fill="none"
-                  stroke="#586597"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m -1205.8304,2615.1641 h 19.9858"
-                />
-                <path
-                  fill="none"
-                  stroke="#586597"
-                  d="M-1193.969 2594.821l2.4757-4.2399M-1190.5872 2593.925l2.4756-4.2399M-1200.7325 2596.613l2.4756-4.2399M-1197.3508 2595.717l2.4757-4.2399"
-                />
-              </g>
-            </svg>
-          </h1>
-          <p className="fs-5 text-primary text-opacity-75">
-            <em>A place for your favorite movies</em>
-          </p>
-        </Col>
-      </Row>
-      <Row className="d-flex justify-content-center">
-        <Col md={6} xl={4}>
-          <Card className="mb-5 shadow-lg p-3 rounded">
-            <Card.Body className="d-flex flex-column align-items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="48"
-                height="48"
-                fill="#f65058ff"
-                className="mb-4"
-              >
-                <path d="M24 4C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4zm0 6c3.31 0 6 2.69 6 6 0 3.32-2.69 6-6 6s-6-2.68-6-6c0-3.31 2.69-6 6-6zm0 28.4c-5.01 0-9.41-2.56-12-6.44.05-3.97 8.01-6.16 12-6.16s11.94 2.19 12 6.16c-2.59 3.88-6.99 6.44-12 6.44z" />
-                <path fill="none" d="M0 0h48v48H0z" />
-              </svg>
-              <Form onSubmit={handleSubmit}>
+      <Row className="d-flex justify-content-center align-content-center vh-100">
+        <Col sm={7} md={5} lg={4} xl={3} xxl={2}>
+          <Card className="p-4 rounded-4 shadow-lg m-3">
+            <Card.Img
+              src={myFlixLogo}
+              alt="MyFlix Logo"
+              className="mx-auto mb-3 bg-primary"
+            />
+            <Card.Body className="d-flex flex-column align-items-center px-0">
+              <Form onSubmit={handleSubmit} className="w-100">
                 <Form.Group controlId="formUsername" className="mb-4">
-                  {/* <Form.Label>Username:</Form.Label> */}
                   <Form.Control
                     type="text"
                     placeholder="Username"
                     value={username}
-                    onChange={(error) => setUsername(error.target.value)}
+                    onChange={(event) => setUsername(event.target.value)}
+                    autoComplete="username"
                     minLength="3"
-                    maxLength="20"
+                    maxLength="30"
                     required
                   />
                 </Form.Group>
                 <Form.Group controlId="formPassword" className="mb-4">
-                  {/* <Form.Label>Password:</Form.Label> */}
                   <Form.Control
                     type="password"
                     placeholder="Password"
                     value={password}
-                    onChange={(error) => setPassword(error.target.value)}
+                    onChange={(event) => setPassword(event.target.value)}
+                    autoComplete="current-password"
                     required
                   />
                 </Form.Group>
                 <Form.Group controlId="formEmail" className="mb-4">
-                  {/* <Form.Label>Password:</Form.Label> */}
                   <Form.Control
                     type="email"
                     placeholder="Email"
-                    value={password}
-                    onChange={(error) => setEmail(error.target.value)}
+                    onChange={(event) => setEmail(event.target.value)}
+                    autoComplete="email"
                     required
                   />
                   <Form.Text className="text-muted">
@@ -258,12 +87,11 @@ const SignupView = () => {
                   </Form.Text>
                 </Form.Group>
                 <Form.Group controlId="formBirthday" className="mb-4">
-                  {/* <Form.Label>Password:</Form.Label> */}
                   <Form.Control
                     type="date"
                     placeholder="Birthday"
-                    value={password}
-                    onChange={(error) => setBirthday(error.target.value)}
+                    onChange={(event) => setBirthday(event.target.value)}
+                    autoComplete="date"
                     required
                   />
                 </Form.Group>
@@ -271,12 +99,15 @@ const SignupView = () => {
                   className="btn-primary d-block w-100 mb-3"
                   type="submit"
                 >
-                  Sign Up
+                  SIGNUP
                 </Button>
               </Form>
-              <div className="text-centered">
-                <p className="text-muted">
-                  Do you have an account? <a href="#!">Login</a>
+              <div>
+                <p className="text-muted text-center ">
+                  Do you have an account?
+                  <Link to={"/login"} className="mx-2">
+                    LOGIN
+                  </Link>
                 </p>
               </div>
             </Card.Body>
