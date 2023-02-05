@@ -157,16 +157,18 @@ const MainView = () => {
     );
   };
 
+  const clearLocalCurrentUser = () => {
+    setusername(null);
+    setToken(null);
+    localStorage.clear();
+  };
+
   return (
     <BrowserRouter>
       {username ? (
         <NavigationBar
           username={username}
-          onLoggedOut={() => {
-            setusername(null);
-            setToken(null);
-            localStorage.clear();
-          }}
+          onLoggedOut={clearLocalCurrentUser}
         />
       ) : (
         ""
@@ -253,6 +255,7 @@ const MainView = () => {
                   favoriteMovies={favoriteMovies}
                   toggleFavorite={toggleFavorite}
                   token={token}
+                  onDelete={clearLocalCurrentUser}
                 />
               ) : (
                 <Navigate to="/login" />

@@ -4,7 +4,7 @@ $font-family-sans-serif: -apple-system, "Oswald", Roboto, "Helvetica Neue",
   "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji",
   "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
-$primary: #dc3522;
+$primary: #f65058;
 $secondary: #d9cb9e;
 // $success: $green;
 // $info: $cyan;
@@ -14,7 +14,7 @@ $secondary: #d9cb9e;
 $dark: #1e1e20;
 $light: $secondary;
 
-// $headings-color: $primary;
+$headings-color: $secondary;
 
 $card-bg: #374140;
 $box-shadow-lg: 0 1rem 3rem rgba(#000, 1);

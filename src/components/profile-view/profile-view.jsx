@@ -10,7 +10,13 @@ import { Link } from "react-router-dom";
 import avatar from "./person-circle.svg";
 import MovieCard from "../movie-card/movie-card";
 
-const ProfileView = ({ user, favoriteMovies, toggleFavorite, token }) => {
+const ProfileView = ({
+  user,
+  favoriteMovies,
+  toggleFavorite,
+  token,
+  onDelete,
+}) => {
   const [updateUser, setUpdateUser] = useState(false);
   const [username, setUsername] = useState(user.username);
   const [password, setPassword] = useState(user.password);
@@ -46,7 +52,29 @@ const ProfileView = ({ user, favoriteMovies, toggleFavorite, token }) => {
     }
   };
 
-  const handleDeleteUser = () => {};
+  const handleDeleteUser = async () => {
+    try {
+      const response = await fetch(
+        `https://myflixapi.smartcoder.dev/v1/users/${user.username}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const { success, message, data } = await response.json();
+      if (success) {
+        onDelete();
+      } else {
+        alert(message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleToggle = (movie) => {
     toggleFavorite(movie);
   };
@@ -173,12 +201,11 @@ const ProfileView = ({ user, favoriteMovies, toggleFavorite, token }) => {
                       <Button variant="primary" type="submit">
                         SAVE
                       </Button>
-                      <Button
-                        variant="primary"
-                        onClick={() => handleDeleteUser()}
-                      >
-                        DELETE
-                      </Button>
+                      <Link to="/login">
+                        <Button variant="primary" onClick={handleDeleteUser}>
+                          DELETE
+                        </Button>
+                      </Link>
                       <Button
                         variant="primary"
                         onClick={() => setUpdateUser(false)}

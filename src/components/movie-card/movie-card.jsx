@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -108,23 +107,25 @@ const MovieCard = ({ movie, isFavorite, toggleFavorite }) => {
   );
 };
 
-// MovieCard.propTypes = {
-//   movie: PropTypes.shape({
-//     title: PropTypes.string.isRequired,
-//     description: PropTypes.string.isRequired,
-//     imagePath: PropTypes.string.isRequired,
-//     featured: PropTypes.bool,
-//     genre: PropTypes.shape({
-//       name: PropTypes.string.isRequired,
-//       description: PropTypes.string.isRequired,
-//     }).isRequired,
-//     director: PropTypes.shape({
-//       name: PropTypes.string.isRequired,
-//       bio: PropTypes.string.isRequired,
-//       birthYear: PropTypes.string,
-//       deathYear: PropTypes.string,
-//     }).isRequired,
-//   }).isRequired,
-// };
+MovieCard.propTypes = {
+  movie: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    imagePath: PropTypes.string.isRequired,
+    featured: PropTypes.bool,
+    genre: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+    }).isRequired,
+    director: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      bio: PropTypes.string.isRequired,
+      birthYear: PropTypes.string,
+      deathYear: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
+  isFavorite: PropTypes.bool.isRequired,
+  toggleFavorite: PropTypes.func.isRequired,
+};
 
 export default MovieCard;

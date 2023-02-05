@@ -12,7 +12,6 @@ const LoginView = ({ onLoggedIn }) => {
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (event) => {
-    // this prevents the default behavior of the form which is to reload the entire page
     event.preventDefault();
     try {
       const queryParams = `?username=${username}&password=${password}`;
@@ -50,8 +49,8 @@ const LoginView = ({ onLoggedIn }) => {
             <Card.Img
               src={myFlixLogo}
               alt="MyFlix Logo"
-              className="mx-auto mb-3"
-              style={{ backgroundColor: "#f65058" }}
+              className="mx-auto mb-3 bg-primary"
+              // style={{ backgroundColor: "#f65058" }}
             />
             <Card.Body className="d-flex flex-column align-items-center px-0">
               <Form onSubmit={handleSubmit} className="w-100">
