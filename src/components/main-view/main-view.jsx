@@ -209,7 +209,7 @@ const MainView = () => {
               ) : movies.length === 0 ? (
                 <Col>Loading ...</Col>
               ) : (
-                <Row className="justify-content-center py-5">
+                <Row className="justify-content-center py-5 min-vh-100">
                   <Col md={8} className="mb-5">
                     <MovieView
                       movies={movies}
@@ -232,7 +232,7 @@ const MainView = () => {
               ) : movies.length === 0 ? (
                 <Col>Loading... </Col>
               ) : (
-                <Row className="justify-content-center py-5">
+                <Row className="justify-content-center py-5 min-vh-100">
                   {movies.map((movie) => (
                     <MovieCard
                       movie={movie}
