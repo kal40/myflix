@@ -50,7 +50,7 @@ const MovieView = ({
       <hr />
       <Row className="justify-content-center py-5">
         <h2 className="text-center mb-5">Similar Movies</h2>
-        {findSimilarMovies(movie.genre.name).map((movie) => (
+        {findSimilarMovies(movie.genre.name, movie.id).map((movie) => (
           <MovieCard
             movie={movie}
             isFavorite={favoriteMovies.includes(movie)}

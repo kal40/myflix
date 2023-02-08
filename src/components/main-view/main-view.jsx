@@ -143,8 +143,8 @@ const MainView = () => {
     setFavoriteMovies([...initFavoriteMovies]);
   }, [movies, user]);
 
-  const findSimilarMovies = (genre) =>
-    movies.filter((movie) => movie.genre.name === genre);
+  const findSimilarMovies = (genre, id) =>
+    movies.filter((movie) => movie.genre.name === genre && movie.id !== id);
 
   const updateRootHtmlClass = (...styleClassNames) => {
     const container = document.querySelector("#root");

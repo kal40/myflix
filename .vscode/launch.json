@@ -1,0 +1,18 @@
+{
+  "configurations": [
+    {
+      "name": "Launch localhost",
+      "type": "firefox",
+      "request": "launch",
+      "reAttach": true,
+      "url": "http://localhost:1234",
+      "webRoot": "${workspaceFolder}",
+      "pathMappings": [
+        {
+          "url": "http://localhost:1234/__parcel_source_root/src",
+          "path": "vscode-remote://wsl%2Bmyflix/home/kal/repositories/myflix/src"
+        }
+      ]
+    }
+  ]
+}
