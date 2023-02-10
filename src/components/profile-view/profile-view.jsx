@@ -166,8 +166,9 @@ const ProfileView = ({
               <Card.Body>
                 <Card.Title>Profile Information</Card.Title>
                 <Card.Text></Card.Text>
-                <Form onSubmit={handleUpdate} className="w-100">
+                <Form onSubmit={handleUpdate} className="w-100 text-start">
                   <Form.Group controlId="formUsername" className="mb-4">
+                    <Form.Label>Username:</Form.Label>
                     <Form.Control
                       type="text"
                       placeholder="Username"
@@ -180,6 +181,7 @@ const ProfileView = ({
                     />
                   </Form.Group>
                   <Form.Group controlId="formPassword" className="mb-4">
+                    <Form.Label>Password:</Form.Label>
                     <Form.Control
                       type="password"
                       placeholder="Password"
@@ -190,6 +192,7 @@ const ProfileView = ({
                     />
                   </Form.Group>
                   <Form.Group controlId="formEmail" className="mb-4">
+                    <Form.Label>Email:</Form.Label>
                     <Form.Control
                       type="email"
                       placeholder="Email"
@@ -201,11 +204,13 @@ const ProfileView = ({
                     <Form.Text className="text-muted"></Form.Text>
                   </Form.Group>
                   <Form.Group controlId="formBirthday" className="mb-4">
+                    <Form.Label>Birthday:</Form.Label>
                     <Form.Control
                       type="date"
                       placeholder="Birthday"
                       onChange={(event) => setBirthday(event.target.value)}
                       autoComplete="date"
+                      // the date field defaultValue is not working. The only way to populate with initial value is using javascript
                       ref={birthdayInputRef}
                       required
                     />

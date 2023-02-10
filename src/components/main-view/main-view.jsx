@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -18,6 +18,7 @@ const MainView = () => {
   );
   const [token, setToken] = useState(storedToken ? storedToken : null);
   const [movies, setMovies] = useState([]);
+  const [filteredMovieList, setFilteredMovieList] = useState([]);
   const [user, setUser] = useState({
     username: "",
     password: "",
@@ -77,6 +78,12 @@ const MainView = () => {
       console.error(error);
     }
   };
+
+  function movieSearch(searchString) {
+    setFilteredMovieList(
+      movies.filter((movie) => movie.title.toLowerCase().includes(searchString))
+    );
+  }
 
   useEffect(() => {
     if (username) {
@@ -141,6 +148,7 @@ const MainView = () => {
       user.favoriteMovies.includes(movie.id)
     );
     setFavoriteMovies([...initFavoriteMovies]);
+    setFilteredMovieList(movies);
   }, [movies, user]);
 
   const findSimilarMovies = (genre, id) =>
@@ -166,6 +174,7 @@ const MainView = () => {
         <NavigationBar
           username={username}
           onLoggedOut={clearLocalCurrentUser}
+          onSearch={movieSearch}
         />
       ) : (
         ""
@@ -233,7 +242,7 @@ const MainView = () => {
                 <Col>Loading... </Col>
               ) : (
                 <Row className="justify-content-center py-5">
-                  {movies.map((movie) => (
+                  {filteredMovieList.map((movie) => (
                     <MovieCard
                       movie={movie}
                       isFavorite={favoriteMovies.includes(movie)}

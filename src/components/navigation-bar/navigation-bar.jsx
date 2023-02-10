@@ -1,10 +1,14 @@
 import React from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
+import Form from "react-bootstrap/Form";
 import Image from "react-bootstrap/Image";
 import { Link } from "react-router-dom";
 import myFlixLogo from "./MyFlix-logo.png";
 
-const NavigationBar = ({ username, onLoggedOut }) => {
+const NavigationBar = ({ username, onLoggedOut, onSearch }) => {
+  const handleSearch = (searchString) => {
+    onSearch(searchString);
+  };
   return (
     <Navbar
       expand="lg"
@@ -25,25 +29,23 @@ const NavigationBar = ({ username, onLoggedOut }) => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            {!username && (
-              <React.Fragment>
-                <Nav.Link as={Link} to="/login">
-                  Login
-                </Nav.Link>
-                <Nav.Link as={Link} to="/signup">
-                  Signup
-                </Nav.Link>
-              </React.Fragment>
-            )}
-            {username && (
-              <React.Fragment>
-                <Nav.Link as={Link} to="/">
-                  Home
-                </Nav.Link>
-                <Nav.Link onClick={onLoggedOut}>Logout</Nav.Link>
-              </React.Fragment>
-            )}
+          <Nav className="">
+            <Nav.Link as={Link} to="/">
+              Home
+            </Nav.Link>
+            <Nav.Link onClick={onLoggedOut}>Logout</Nav.Link>
+          </Nav>
+          <Nav className="mx-auto">
+            <Form className="d-flex">
+              <Form.Control
+                id="searchbar"
+                type="search"
+                placeholder="Search"
+                className=""
+                aria-label="Search"
+                onChange={(event) => handleSearch(event.target.value)}
+              />
+            </Form>
           </Nav>
           <Nav className="align-items-center">
             <Nav.Link as={Link} to="/profile">

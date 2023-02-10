@@ -51,8 +51,9 @@ const SignupView = ({ onSignedUp }) => {
               className="mx-auto mb-3 bg-primary"
             />
             <Card.Body className="d-flex flex-column align-items-center px-0">
-              <Form onSubmit={handleSubmit} className="w-100">
-                <Form.Group controlId="formUsername" className="mb-4">
+              <Form onSubmit={handleSubmit} className="w-100 text-white">
+                <Form.Group controlId="formUsername" className="mb-3">
+                  <Form.Label>Username:</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Username"
@@ -64,7 +65,8 @@ const SignupView = ({ onSignedUp }) => {
                     required
                   />
                 </Form.Group>
-                <Form.Group controlId="formPassword" className="mb-4">
+                <Form.Group controlId="formPassword" className="mb-3">
+                  <Form.Label>Password:</Form.Label>
                   <Form.Control
                     type="password"
                     placeholder="Password"
@@ -74,7 +76,8 @@ const SignupView = ({ onSignedUp }) => {
                     required
                   />
                 </Form.Group>
-                <Form.Group controlId="formEmail" className="mb-4">
+                <Form.Group controlId="formEmail" className="mb-3">
+                  <Form.Label>Email:</Form.Label>
                   <Form.Control
                     type="email"
                     placeholder="Email"
@@ -86,7 +89,8 @@ const SignupView = ({ onSignedUp }) => {
                     We'll never share your email with anyone else.
                   </Form.Text>
                 </Form.Group>
-                <Form.Group controlId="formBirthday" className="mb-4">
+                <Form.Group controlId="formBirthday" className="mb-3">
+                  <Form.Label>Birthday:</Form.Label>
                   <Form.Control
                     type="date"
                     placeholder="Birthday"
