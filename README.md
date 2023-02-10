@@ -6,31 +6,23 @@ The client-side component of the MyFlix application using REACT. A single-page, 
 
 The main purpose of this app is to present how I create the frontend in React of a fullstack application.
 
-This site was built using [TBD]().
+This site was built using [Netlify Build](https://www.netlify.com/products/build/).
 
-[LIVE DEMO (in progress...)](https://myflix.smartcoder.dev/)
+[LIVE DEMO](https://myflix.smartcoder.dev/)
 
 ## Getting started
 
-TBD
-
 ### Prerequisites
 
-TBD
+Install nodejs LTS or the latest version.
 
 ### Installation
 
 Clone the repository:
 
 ```shell
-TBD
-
-```
-
-Create a file and name it `.env.development.local` for environment variables and add the next content:
-
-```shell
-TBD
+git clone https://github.com/kal40/myflix.git
+cd movie-api
 
 ```
 
@@ -41,8 +33,6 @@ npm install
 npm run dev
 ```
 
-### Testing
-
 ## Key Features
 
 - Single-page application (SPA)
@@ -50,8 +40,15 @@ npm run dev
 - Parcel as its build tool
 - React library and in ES2015+
 - Bootstrap as a UI library for styling and responsiveness
-- React Redux for state management
 
 ## Dependencies
 
 See [`package.json`](https://raw.githubusercontent.com/kal40/myflix/master/package.json)
+
+## Future development
+
+- Implement Redux for state management
+
+## Known issues
+
+- All user data should be stored in browser localstorage
