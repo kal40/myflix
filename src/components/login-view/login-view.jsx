@@ -14,11 +14,15 @@ const LoginView = ({ onLoggedIn }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const queryParams = `?username=${username}&password=${password}`;
+      const userData = {
+        username: username,
+        password: password,
+      };
       const response = await fetch(
-        `https://myflixapi.smartcoder.dev/v1/users/login${queryParams}`,
+        `https://myflixapi.smartcoder.dev/v1/users/login`,
         {
           method: "POST",
+          body: JSON.stringify(userData),
           headers: {
             "Content-Type": "application/json",
           },
