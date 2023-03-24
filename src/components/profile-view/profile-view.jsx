@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import avatar from "./person-circle.svg";
+import avatar from "../../assets/person-circle.svg";
 import MovieCard from "../movie-card/movie-card";
 
 const ProfileView = ({
@@ -105,7 +105,7 @@ const ProfileView = ({
   };
 
   return (
-    <React.Fragment>
+    <>
       {!updateUser ? (
         <Row className="d-flex justify-content-center p-4">
           <Col sm={8} md={6} lg={5} xl={4} xxl={3}>
@@ -251,7 +251,7 @@ const ProfileView = ({
           <p>No favorite movies</p>
         )}
       </Row>
-    </React.Fragment>
+    </>
   );
 };
 

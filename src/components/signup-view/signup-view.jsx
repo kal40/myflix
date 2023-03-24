@@ -6,7 +6,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Link } from "react-router-dom";
 
-import myFlixLogo from "../login-view/MyFlix-1.png";
+import myFlixLogo from "../../assets/MyFlix-1.png";
 
 const SignupView = ({ onSignedUp }) => {
   const [username, setUsername] = useState("");
@@ -41,10 +41,13 @@ const SignupView = ({ onSignedUp }) => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <Row className="d-flex justify-content-center align-content-center vh-100">
         <Col>
-          <Card className="p-4 rounded-4 shadow-lg m-auto"  style={{width: "17rem"}}>
+          <Card
+            className="p-4 rounded-4 shadow-lg m-auto"
+            style={{ width: "17rem" }}
+          >
             <Card.Img
               src={myFlixLogo}
               alt="MyFlix Logo"
@@ -118,7 +121,7 @@ const SignupView = ({ onSignedUp }) => {
           </Card>
         </Col>
       </Row>
-    </React.Fragment>
+    </>
   );
 };
 

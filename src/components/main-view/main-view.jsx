@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -9,6 +9,13 @@ import LoginView from "../login-view/login-view";
 import SignupView from "../signup-view/signup-view";
 import ProfileView from "../profile-view/profile-view";
 import NavigationBar from "../navigation-bar/navigation-bar";
+
+import {
+  deleteFavoriteMovie,
+  addFavoriteMovie,
+  getUser,
+  fetchMovies,
+} from "../../services/myflixAPI";
 
 const MainView = () => {
   const storedusername = localStorage.getItem("username");
@@ -26,7 +33,6 @@ const MainView = () => {
     birthday: "",
     favoriteMovies: [],
   });
-
   const [favoriteMovies, setFavoriteMovies] = useState([]);
   const [signedUpSuccess, setSignedUpSuccess] = useState(false);
 
@@ -43,113 +49,11 @@ const MainView = () => {
     }
   };
 
-  const deleteFavoriteMovie = async (movie) => {
-    try {
-      const response = await fetch(
-        `https://myflixapi.smartcoder.dev/v1/users/${user.username}/movies/${movie.id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const { success, message, data } = await response.json();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const addFavoriteMovie = async (movie) => {
-    try {
-      const response = await fetch(
-        `https://myflixapi.smartcoder.dev/v1/users/${user.username}/movies/${movie.id}`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const { success, message, data } = await response.json();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   function movieSearch(searchString) {
     setFilteredMovieList(
       movies.filter((movie) => movie.title.toLowerCase().includes(searchString))
     );
   }
-
-  useEffect(() => {
-    if (username) {
-      updateRootHtmlClass("text-bg-dark");
-    } else {
-      updateRootHtmlClass("root--cover");
-    }
-  }, [username]);
-
-  useEffect(() => {
-    if (!token) return;
-
-    async function getUser(username, token) {
-      try {
-        const response = await fetch(
-          `https://myflixapi.smartcoder.dev/v1/users/${username}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const { success, message, data } = await response.json();
-        if (data) {
-          setUser({ ...data });
-        } else {
-          alert(message);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getUser(username, token);
-
-    async function fetchMovies() {
-      const response = await fetch(
-        "https://myflixapi.smartcoder.dev/v1/movies",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      const data = await response.json();
-
-      const moviesFromAPI = data.data.map((movie) => {
-        return {
-          id: movie._id,
-          title: movie.title,
-          description: movie.description,
-          imagePath: movie.imagePath,
-          genre: movie.genre,
-          director: movie.director,
-        };
-      });
-      setMovies(moviesFromAPI);
-    }
-    fetchMovies();
-  }, [token]);
-
-  useEffect(() => {
-    const initFavoriteMovies = movies.filter((movie) =>
-      user.favoriteMovies.includes(movie.id)
-    );
-    setFavoriteMovies([...initFavoriteMovies]);
-    setFilteredMovieList(movies);
-  }, [movies, user]);
 
   const findSimilarMovies = (genre, id) =>
     movies.filter((movie) => movie.genre.name === genre && movie.id !== id);
@@ -161,6 +65,28 @@ const MainView = () => {
       container.classList.add(styleClassName)
     );
   };
+
+  useEffect(() => {
+    if (username) {
+      updateRootHtmlClass("text-bg-dark");
+    } else {
+      updateRootHtmlClass("root--cover");
+    }
+  }, [username]);
+
+  useEffect(() => {
+    if (!token) return;
+    getUser(username, token);
+    setMovies(fetchMovies(token));
+  }, [token]);
+
+  useEffect(() => {
+    const initFavoriteMovies = movies.filter((movie) =>
+      user.favoriteMovies.includes(movie.id)
+    );
+    setFavoriteMovies([...initFavoriteMovies]);
+    setFilteredMovieList(movies);
+  }, [movies, user]);
 
   const clearLocalCurrentUser = () => {
     setusername(null);
@@ -183,19 +109,19 @@ const MainView = () => {
         <Route
           path="/signup"
           element={
-            <React.Fragment>
+            <>
               {username || signedUpSuccess ? (
                 <Navigate to="/" />
               ) : (
                 <SignupView onSignedUp={() => setSignedUpSuccess(true)} />
               )}
-            </React.Fragment>
+            </>
           }
         />
         <Route
           path="/login"
           element={
-            <React.Fragment>
+            <>
               {username ? (
                 <Navigate to="/" />
               ) : (
@@ -206,13 +132,13 @@ const MainView = () => {
                   }}
                 />
               )}
-            </React.Fragment>
+            </>
           }
         />
         <Route
           path="/movies/:movieId"
           element={
-            <React.Fragment>
+            <>
               {!username ? (
                 <Navigate to="/login" />
               ) : movies.length === 0 ? (
@@ -229,13 +155,13 @@ const MainView = () => {
                   </Col>
                 </Row>
               )}
-            </React.Fragment>
+            </>
           }
         />
         <Route
           path="/"
           element={
-            <React.Fragment>
+            <>
               {!username ? (
                 <Navigate to="/login" />
               ) : movies.length === 0 ? (
@@ -252,13 +178,13 @@ const MainView = () => {
                   ))}
                 </Row>
               )}
-            </React.Fragment>
+            </>
           }
         />
         <Route
           path="/profile"
           element={
-            <React.Fragment>
+            <>
               {username ? (
                 <ProfileView
                   user={user}
@@ -270,7 +196,7 @@ const MainView = () => {
               ) : (
                 <Navigate to="/login" />
               )}
-            </React.Fragment>
+            </>
           }
         />
       </Routes>

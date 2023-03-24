@@ -26,7 +26,7 @@ const MovieView = ({
   };
 
   return (
-    <React.Fragment>
+    <>
       <div>
         <Image
           src={movie.imagePath}
@@ -59,7 +59,7 @@ const MovieView = ({
           />
         ))}
       </Row>
-    </React.Fragment>
+    </>
   );
 };
 

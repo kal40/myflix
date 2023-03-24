@@ -3,7 +3,7 @@ import { Navbar, Container, Nav } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Image from "react-bootstrap/Image";
 import { Link } from "react-router-dom";
-import myFlixLogo from "./MyFlix-logo.png";
+import myFlixLogo from "../../assets/MyFlix-logo.png";
 
 const NavigationBar = ({ username, onLoggedOut, onSearch }) => {
   const handleSearch = (searchString) => {

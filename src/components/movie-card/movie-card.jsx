@@ -12,7 +12,7 @@ const MovieCard = ({ movie, isFavorite, toggleFavorite }) => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <Card
         style={{ width: "20rem" }}
         className="m-2 shadow-sm p-3 rounded-0 text-ligth"
@@ -104,7 +104,7 @@ const MovieCard = ({ movie, isFavorite, toggleFavorite }) => {
           </div>{" "}
         </Card.Body>
       </Card>
-    </React.Fragment>
+    </>
   );
 };
 
