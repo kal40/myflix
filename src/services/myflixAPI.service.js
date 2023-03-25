@@ -1,19 +1,15 @@
-const deleteFavoriteMovie = async (movie) => {
-  try {
-    const response = await fetch(
-      `https://myflixapi.smartcoder.dev/v1/users/${user.username}/movies/${movie.id}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const { success, message, data } = await response.json();
-  } catch (error) {
-    console.error(error);
-  }
+const deleteFavoriteMovie = async (user, movie) => {
+  const response = await fetch(
+    `https://myflixapi.smartcoder.dev/v1/users/${user.username}/movies/${movie.id}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response;
 };
 
 const addFavoriteMovie = async (movie) => {
