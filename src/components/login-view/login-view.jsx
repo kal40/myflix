@@ -7,42 +7,18 @@ import Col from "react-bootstrap/Col";
 import myFlixLogo from "../../assets/MyFlix-1.png";
 import { Link } from "react-router-dom";
 
+import UserController from "../../controllers/user.controller";
+
 const LoginView = ({ onLoggedIn }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      const userData = {
-        username: username,
-        password: password,
-      };
-      const response = await fetch(
-        `https://myflixapi.smartcoder.dev/v1/users/login`,
-        {
-          method: "POST",
-          body: JSON.stringify(userData),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const { success, message, data } = await response.json();
-      if (data) {
-        localStorage.setItem("username", username);
-        localStorage.setItem("token", data.token);
-        onLoggedIn(username, data.token);
-      } else if (success) {
-        alert(message);
-      } else {
-        alert("Login Failed");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Login Failed");
-    }
+    const response = await UserController.loginUser(username, password);
+    localStorage.setItem("username", username);
+    localStorage.setItem("token", response.token);
+    onLoggedIn(username, response.token);
   };
 
   return (

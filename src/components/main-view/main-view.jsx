@@ -10,12 +10,8 @@ import SignupView from "../signup-view/signup-view";
 import ProfileView from "../profile-view/profile-view";
 import NavigationBar from "../navigation-bar/navigation-bar";
 
-import {
-  deleteFavoriteMovie,
-  addFavoriteMovie,
-  getUser,
-  fetchMovies,
-} from "../../services/myflixAPI";
+import UserController from "../../controllers/user.controller";
+import MovieController from "../../controllers/movie.controller";
 
 const MainView = () => {
   const storedusername = localStorage.getItem("username");
@@ -39,12 +35,12 @@ const MainView = () => {
   const toggleFavorite = (movie) => {
     const index = favoriteMovies.indexOf(movie);
     if (index > -1) {
-      deleteFavoriteMovie(movie);
+      UserController.deleteFavoriteMovie(user, movie, token);
       setFavoriteMovies(
         favoriteMovies.filter((favoriteMovie) => favoriteMovie.id !== movie.id)
       );
     } else {
-      addFavoriteMovie(movie);
+      UserController.addFavoriteMovie(user, movie, token);
       setFavoriteMovies([...favoriteMovies, movie]);
     }
   };
@@ -76,8 +72,16 @@ const MainView = () => {
 
   useEffect(() => {
     if (!token) return;
-    getUser(username, token);
-    setMovies(fetchMovies(token));
+
+    (async () => {
+      const userFromAPI = await UserController.getUser(username, token);
+      setUser(userFromAPI);
+    })();
+
+    (async () => {
+      const moviesFromAPI = await MovieController.fetchMovies(token);
+      setMovies(moviesFromAPI);
+    })();
   }, [token]);
 
   useEffect(() => {

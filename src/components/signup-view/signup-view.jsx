@@ -7,6 +7,7 @@ import Col from "react-bootstrap/Col";
 import { Link } from "react-router-dom";
 
 import myFlixLogo from "../../assets/MyFlix-1.png";
+import UserController from "../../controllers/user.controller";
 
 const SignupView = ({ onSignedUp }) => {
   const [username, setUsername] = useState("");
@@ -17,26 +18,14 @@ const SignupView = ({ onSignedUp }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const userData = {
-      username: username,
-      password: password,
-      email: email,
-      birthday: birthday,
-    };
-
-    const response = await fetch("https://myflixapi.smartcoder.dev/v1/users", {
-      method: "POST",
-      body: JSON.stringify(userData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const { success, message, data } = await response.json();
-    if (success) {
-      alert(message);
+    const response = await UserController.registerUser(
+      username,
+      password,
+      email,
+      birthday
+    );
+    if (response) {
       onSignedUp();
-    } else {
-      alert("Signup failed");
     }
   };
 

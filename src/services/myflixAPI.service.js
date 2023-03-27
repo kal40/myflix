@@ -1,4 +1,42 @@
-const deleteFavoriteMovie = async (user, movie) => {
+const getUser = async (username, token) => {
+  const response = await fetch(
+    `https://myflixapi.smartcoder.dev/v1/users/${username}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response;
+};
+
+const loginUser = async (userData) => {
+  const response = await fetch(
+    `https://myflixapi.smartcoder.dev/v1/users/login`,
+    {
+      method: "POST",
+      body: JSON.stringify(userData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response;
+};
+
+const registerUser = async (userData) => {
+  const response = await fetch(`https://myflixapi.smartcoder.dev/v1/users`, {
+    method: "POST",
+    body: JSON.stringify(userData),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response;
+};
+
+const deleteFavoriteMovie = async (user, movie, token) => {
   const response = await fetch(
     `https://myflixapi.smartcoder.dev/v1/users/${user.username}/movies/${movie.id}`,
     {
@@ -12,68 +50,33 @@ const deleteFavoriteMovie = async (user, movie) => {
   return response;
 };
 
-const addFavoriteMovie = async (movie) => {
-  try {
-    const response = await fetch(
-      `https://myflixapi.smartcoder.dev/v1/users/${user.username}/movies/${movie.id}`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const { success, message, data } = await response.json();
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-const getUser = async (username, token) => {
-  try {
-    const response = await fetch(
-      `https://myflixapi.smartcoder.dev/v1/users/${username}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const { success, message, data } = await response.json();
-    if (data) {
-      setUser({ ...data });
-    } else {
-      alert(message);
+const addFavoriteMovie = async (user, movie, token) => {
+  const response = await fetch(
+    `https://myflixapi.smartcoder.dev/v1/users/${user.username}/movies/${movie.id}`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
     }
-  } catch (error) {
-    console.error(error);
-  }
+  );
+  return response;
 };
 
 const fetchMovies = async (token) => {
   const response = await fetch("https://myflixapi.smartcoder.dev/v1/movies", {
     headers: { Authorization: `Bearer ${token}` },
   });
-  const data = await response.json();
 
-  const moviesFromAPI = data.data.map((movie) => {
-    return {
-      id: movie._id,
-      title: movie.title,
-      description: movie.description,
-      imagePath: movie.imagePath,
-      genre: movie.genre,
-      director: movie.director,
-    };
-  });
-  return moviesFromAPI;
+  return response;
 };
 
 export default {
+  getUser,
+  loginUser,
+  registerUser,
   deleteFavoriteMovie,
   addFavoriteMovie,
-  getUser,
   fetchMovies,
 };

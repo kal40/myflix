@@ -38,6 +38,7 @@ npm run dev
 - State routing to navigate between views and share URLs
 - Parcel as its build tool
 - React library and in ES2015+
+- React Router
 - Redux for state management
 - Bootstrap as a UI library for styling and responsiveness
 
