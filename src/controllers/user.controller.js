@@ -52,11 +52,62 @@ const registerUser = async (username, password, email, birthday) => {
     } else if (success) {
       alert(message);
     } else {
-      alert("Registration Failed");
+      alert(message);
     }
   } catch (error) {
     console.error(error);
     alert("Registration Failed");
+  }
+};
+
+const updateUser = async (
+  currentUsername,
+  username,
+  password,
+  email,
+  birthday,
+  token
+) => {
+  const userData = {
+    username: username,
+    password: password,
+    email: email,
+    birthday: birthday,
+  };
+  try {
+    const response = await MyflixAPIService.updateUser(
+      currentUsername,
+      userData,
+      token
+    );
+    const { success, message, data } = await response.json();
+    if (data) {
+      return { ...data };
+    } else if (success) {
+      alert(message);
+    } else {
+      alert(message);
+    }
+  } catch (error) {
+    console.error(error);
+    alert("Update Failed");
+  }
+};
+
+const deleteUser = async (username, token) => {
+  try {
+    const response = await MyflixAPIService.deleteUser(username, token);
+    const { success, message, data } = await response.json();
+    if (data) {
+      return { ...data };
+    } else if (success) {
+      alert(message);
+    } else {
+      alert(message);
+    }
+  } catch (error) {
+    console.error(error);
+    alert("Delete Failed");
   }
 };
 
@@ -100,6 +151,8 @@ export default {
   getUser,
   loginUser,
   registerUser,
+  updateUser,
+  deleteUser,
   deleteFavoriteMovie,
   addFavoriteMovie,
 };

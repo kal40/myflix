@@ -8,12 +8,14 @@ import Col from "react-bootstrap/Col";
 
 import avatar from "../../assets/person-circle.svg";
 import MovieCard from "../movie-card/movie-card";
+import UserController from "../../controllers/user.controller";
 
 const ProfileView = ({
   user,
-  favoriteMovies,
+  movies,
   toggleFavorite,
   token,
+  onUpdate,
   onDelete,
 }) => {
   const [updateUser, setUpdateUser] = useState(false);
@@ -29,60 +31,27 @@ const ProfileView = ({
     }
   }, [updateUser]);
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (event) => {
     event.preventDefault();
 
-    const userData = {
-      username: username,
-      password: password,
-      email: email,
-      birthday: birthday,
-    };
-    try {
-      const response = await fetch(
-        `https://myflixapi.smartcoder.dev/v1/users/${user.username}`,
-        {
-          method: "PUT",
-          body: JSON.stringify(userData),
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const { success, message, data } = await response.json();
-      if (success) {
-        alert(message);
-        setUpdateUser(false);
-      } else {
-        console.error(message);
-        alert("Update failed");
-      }
-    } catch (error) {
-      console.error(error);
+    const response = await UserController.updateUser(
+      user.username,
+      username,
+      password,
+      email,
+      birthday,
+      token
+    );
+    if (response) {
+      onUpdate(username);
+      setUpdateUser(false);
     }
   };
 
   const handleDeleteUser = async () => {
-    try {
-      const response = await fetch(
-        `https://myflixapi.smartcoder.dev/v1/users/${user.username}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const { success, message, data } = await response.json();
-      if (success) {
-        onDelete();
-      } else {
-        alert(message);
-      }
-    } catch (error) {
-      console.error(error);
+    const response = await UserController.deleteUser(user.username, token);
+    if (response) {
+      onDelete();
     }
   };
 
@@ -90,7 +59,7 @@ const ProfileView = ({
     toggleFavorite(movie);
   };
 
-  const formatDate = (birthday) => {
+  function formatDate(birthday) {
     const date = new Date(birthday);
     const year = date.getFullYear();
     let month = date.getMonth() + 1;
@@ -102,7 +71,7 @@ const ProfileView = ({
       dayOfTheMonth = `0${dayOfTheMonth}`;
     }
     return `${year}-${month}-${dayOfTheMonth}`;
-  };
+  }
 
   return (
     <>
@@ -238,15 +207,17 @@ const ProfileView = ({
       )}
       <Row className="justify-content-center py-5">
         <h2 className="text-center mb-5">Favorite Movies</h2>
-        {favoriteMovies.length ? (
-          favoriteMovies.map((movie) => (
-            <MovieCard
-              movie={movie}
-              isFavorite={true}
-              toggleFavorite={handleToggle}
-              key={movie.id}
-            />
-          ))
+        {user.favoriteMovies.length ? (
+          movies
+            .filter((movie) => user.favoriteMovies.includes(movie.id))
+            .map((movie) => (
+              <MovieCard
+                movie={movie}
+                isFavorite={true}
+                toggleFavorite={handleToggle}
+                key={movie.id}
+              />
+            ))
         ) : (
           <p>No favorite movies</p>
         )}

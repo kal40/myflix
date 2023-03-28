@@ -25,7 +25,7 @@ $navbar-dark-active-color: $secondary;
 $navbar-dark-disabled-color: rgba($secondary, 0.25);
 $navbar-dark-toggler-border-color: rgba($secondary, 0.1);
 
-.root--cover::before {
+.loginCover::before {
   content: "";
   display: inline-block;
   position: absolute;

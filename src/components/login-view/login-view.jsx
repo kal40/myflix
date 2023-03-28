@@ -16,9 +16,10 @@ const LoginView = ({ onLoggedIn }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await UserController.loginUser(username, password);
-    localStorage.setItem("username", username);
-    localStorage.setItem("token", response.token);
-    onLoggedIn(username, response.token);
+    if (response) {
+      localStorage.setItem("token", response.token);
+      onLoggedIn(username, response.token);
+    }
   };
 
   return (

@@ -4,16 +4,17 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import myFlixLogo from "../../assets/MyFlix-1.png";
 import UserController from "../../controllers/user.controller";
 
-const SignupView = ({ onSignedUp }) => {
+const SignupView = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -25,7 +26,8 @@ const SignupView = ({ onSignedUp }) => {
       birthday
     );
     if (response) {
-      onSignedUp();
+      alert("User successfully registered!");
+      navigate("/login");
     }
   };
 

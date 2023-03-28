@@ -36,6 +36,35 @@ const registerUser = async (userData) => {
   return response;
 };
 
+const updateUser = async (currentUsername, userData, token) => {
+  const response = await fetch(
+    `https://myflixapi.smartcoder.dev/v1/users/${currentUsername}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(userData),
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response;
+};
+
+const deleteUser = async (username, token) => {
+  const response = await fetch(
+    `https://myflixapi.smartcoder.dev/v1/users/${username}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response;
+};
+
 const deleteFavoriteMovie = async (user, movie, token) => {
   const response = await fetch(
     `https://myflixapi.smartcoder.dev/v1/users/${user.username}/movies/${movie.id}`,
@@ -76,6 +105,8 @@ export default {
   getUser,
   loginUser,
   registerUser,
+  updateUser,
+  deleteUser,
   deleteFavoriteMovie,
   addFavoriteMovie,
   fetchMovies,
