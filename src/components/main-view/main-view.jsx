@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -12,63 +12,41 @@ import SignupView from "../signup-view/signup-view";
 import ProfileView from "../profile-view/profile-view";
 import NavigationBar from "../navigation-bar/navigation-bar";
 
-import UserController from "../../controllers/user.controller";
-import MovieController from "../../controllers/movie.controller";
+import { clearUser, fetchUser } from "../../features/user/userSlice";
+import { clearMovies, fetchMovies } from "../../features/movies/moviesSlice";
 
 const MainView = () => {
-  const storedUser = JSON.parse(localStorage.getItem("user"));
-  const storedToken = localStorage.getItem("token");
-  const [user, setUser] = useState(storedUser ? storedUser : null);
-  const [token, setToken] = useState(storedToken ? storedToken : null);
-  const [movies, setMovies] = useState([]);
-  const [searchString, setSearchString] = useState();
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.user.token);
+  const user = useSelector((state) => state.user.data);
+  const movies = useSelector((state) => state.movies.data);
+  const movieStatus = useSelector((state) => state.movies.status);
+  const searchString = useSelector((state) => state.movies.searchString);
 
   useEffect(() => {
-    if (user) {
-      (async () => {
-        moviesFromAPI = await MovieController.fetchMovies(token);
-        setMovies(moviesFromAPI);
-      })();
+    if (movieStatus === "idle" && token) {
+      dispatch(fetchMovies(token));
     }
-    localStorage.setItem("user", JSON.stringify(user));
-  }, [user]);
-
-  function toggleFavorite(movie) {
-    const index = user.favoriteMovies.indexOf(movie.id);
-    if (index > -1) {
-      UserController.deleteFavoriteMovie(user, movie, token);
-      setUser({
-        ...user,
-        favoriteMovies: user.favoriteMovies.filter((id) => id !== movie.id),
-      });
-    } else {
-      UserController.addFavoriteMovie(user, movie, token);
-      setUser({
-        ...user,
-        favoriteMovies: [...user.favoriteMovies, movie.id],
-      });
-    }
-  }
+  }, [token]);
 
   function clearLocalCurrentUser() {
-    setUser(null);
-    setToken(null);
-    localStorage.clear();
+    dispatch(clearUser());
+    dispatch(clearMovies());
   }
 
   return (
     <BrowserRouter>
       <div
         id="mainview-wrapper"
-        className={`min-vh-100 ${user ? "text-bg-dark" : "loginCover"}`}
+        className={`min-vh-100 ${
+          user.username ? "text-bg-dark" : "loginCover"
+        }`}
       >
-        {user ? (
+        {user.username ? (
           <NavigationBar
-            username={user.username}
             onLoggedOut={() => {
               clearLocalCurrentUser();
             }}
-            onSearch={(searchString) => setSearchString(searchString)}
           />
         ) : (
           ""
@@ -77,53 +55,28 @@ const MainView = () => {
           <Routes>
             <Route
               path="/signup"
-              element={<>{user ? <Navigate to="/" /> : <SignupView />}</>}
+              element={
+                <>{user.username ? <Navigate to="/" /> : <SignupView />}</>
+              }
             />
             <Route
               path="/login"
               element={
-                <>
-                  {user ? (
-                    <Navigate to="/" />
-                  ) : (
-                    <LoginView
-                      onLoggedIn={async (username, token) => {
-                        setToken(token);
-                        const userFromAPI = await UserController.getUser(
-                          username,
-                          token
-                        );
-                        setUser(userFromAPI);
-                        localStorage.setItem(
-                          "user",
-                          JSON.stringify(userFromAPI)
-                        );
-                        const moviesFromAPI = await MovieController.fetchMovies(
-                          token
-                        );
-                        setMovies(moviesFromAPI);
-                      }}
-                    />
-                  )}
-                </>
+                <>{user.username ? <Navigate to="/" /> : <LoginView />}</>
               }
             />
             <Route
               path="/movies/:movieId"
               element={
                 <>
-                  {!user ? (
+                  {!user.username ? (
                     <Navigate to="/login" />
                   ) : movies.length === 0 ? (
                     <Col>Loading ...</Col>
                   ) : (
                     <Row className="justify-content-center py-5">
                       <Col md={8} className="mb-5">
-                        <MovieView
-                          movies={movies}
-                          user={user}
-                          toggleFavorite={toggleFavorite}
-                        />
+                        <MovieView />
                       </Col>
                     </Row>
                   )}
@@ -134,7 +87,7 @@ const MainView = () => {
               path="/"
               element={
                 <>
-                  {!user ? (
+                  {!user.username ? (
                     <Navigate to="/login" />
                   ) : movies.length === 0 ? (
                     <Col>Loading... </Col>
@@ -146,24 +99,10 @@ const MainView = () => {
                               movie.title.toLowerCase().includes(searchString)
                             )
                             .map((movie) => (
-                              <MovieCard
-                                movie={movie}
-                                isFavorite={user.favoriteMovies.includes(
-                                  movie.id
-                                )}
-                                toggleFavorite={toggleFavorite}
-                                key={movie.id}
-                              />
+                              <MovieCard movie={movie} key={movie.id} />
                             ))
                         : movies.map((movie) => (
-                            <MovieCard
-                              movie={movie}
-                              isFavorite={user.favoriteMovies.includes(
-                                movie.id
-                              )}
-                              toggleFavorite={toggleFavorite}
-                              key={movie.id}
-                            />
+                            <MovieCard movie={movie} key={movie.id} />
                           ))}
                     </Row>
                   )}
@@ -174,25 +113,7 @@ const MainView = () => {
               path="/profile"
               element={
                 <>
-                  {user ? (
-                    <ProfileView
-                      user={user}
-                      movies={movies}
-                      toggleFavorite={toggleFavorite}
-                      token={token}
-                      onUpdate={async (updatedUsername) => {
-                        setUser(
-                          await UserController.getUser(updatedUsername, token)
-                        );
-                        localStorage.setItem("user", JSON.stringify(user));
-                      }}
-                      onDelete={() => {
-                        clearLocalCurrentUser();
-                      }}
-                    />
-                  ) : (
-                    <Navigate to="/login" />
-                  )}
+                  {user.username ? <ProfileView /> : <Navigate to="/login" />}
                 </>
               }
             />

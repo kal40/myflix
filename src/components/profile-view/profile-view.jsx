@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
@@ -8,17 +9,14 @@ import Col from "react-bootstrap/Col";
 
 import avatar from "../../assets/person-circle.svg";
 import MovieCard from "../movie-card/movie-card";
-import UserController from "../../controllers/user.controller";
+import { deleteUser, updateUser } from "../../features/user/userSlice";
 
-const ProfileView = ({
-  user,
-  movies,
-  toggleFavorite,
-  token,
-  onUpdate,
-  onDelete,
-}) => {
-  const [updateUser, setUpdateUser] = useState(false);
+const ProfileView = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.data);
+  const movies = useSelector((state) => state.movies.data);
+  const token = useSelector((state) => state.user.token);
+  const [editUser, setEditUser] = useState(false);
   const [username, setUsername] = useState(user.username);
   const [password, setPassword] = useState(user.password);
   const [email, setEmail] = useState(user.email);
@@ -29,34 +27,23 @@ const ProfileView = ({
     if (birthdayInputRef.current) {
       birthdayInputRef.current.value = formatDate(birthday);
     }
-  }, [updateUser]);
+  }, [editUser]);
 
   const handleUpdate = async (event) => {
     event.preventDefault();
-
-    const response = await UserController.updateUser(
-      user.username,
-      username,
-      password,
-      email,
-      birthday,
-      token
-    );
-    if (response) {
-      onUpdate(username);
-      setUpdateUser(false);
+    try {
+      await dispatch(
+        updateUser({ user, username, password, email, birthday, token })
+      ).unwrap();
+    } catch (err) {
+      console.error("Failed to update: ", err);
+    } finally {
+      setEditUser(false);
     }
   };
 
   const handleDeleteUser = async () => {
-    const response = await UserController.deleteUser(user.username, token);
-    if (response) {
-      onDelete();
-    }
-  };
-
-  const handleToggle = (movie) => {
-    toggleFavorite(movie);
+    dispatch(deleteUser({ user, token }));
   };
 
   function formatDate(birthday) {
@@ -75,7 +62,7 @@ const ProfileView = ({
 
   return (
     <>
-      {!updateUser ? (
+      {!editUser ? (
         <Row className="d-flex justify-content-center p-4">
           <Col sm={8} md={6} lg={5} xl={4} xxl={3}>
             <Card
@@ -110,7 +97,7 @@ const ProfileView = ({
               </ListGroup>
               <Card.Body>
                 <div className="text-center">
-                  <Button variant="primary" onClick={() => setUpdateUser(true)}>
+                  <Button variant="primary" onClick={() => setEditUser(true)}>
                     EDIT
                   </Button>
                 </div>
@@ -194,7 +181,7 @@ const ProfileView = ({
                     </Button>
                     <Button
                       variant="primary"
-                      onClick={() => setUpdateUser(false)}
+                      onClick={() => setEditUser(false)}
                     >
                       CANCEL
                     </Button>
@@ -210,14 +197,7 @@ const ProfileView = ({
         {user.favoriteMovies.length ? (
           movies
             .filter((movie) => user.favoriteMovies.includes(movie.id))
-            .map((movie) => (
-              <MovieCard
-                movie={movie}
-                isFavorite={true}
-                toggleFavorite={handleToggle}
-                key={movie.id}
-              />
-            ))
+            .map((movie) => <MovieCard movie={movie} key={movie.id} />)
         ) : (
           <p>No favorite movies</p>
         )}

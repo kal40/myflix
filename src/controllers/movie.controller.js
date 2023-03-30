@@ -17,6 +17,7 @@ const fetchMovies = async (token) => {
       });
     } else {
       alert(message);
+      return Promise.reject(message);
     }
   } catch (error) {
     console.error(error);

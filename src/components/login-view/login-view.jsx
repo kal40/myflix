@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -7,19 +8,16 @@ import Col from "react-bootstrap/Col";
 import myFlixLogo from "../../assets/MyFlix-1.png";
 import { Link } from "react-router-dom";
 
-import UserController from "../../controllers/user.controller";
+import { loginUser, setUsername } from "../../features/user/userSlice";
 
-const LoginView = ({ onLoggedIn }) => {
-  const [username, setUsername] = useState("");
+const LoginView = () => {
+  const dispatch = useDispatch();
+  const [username, setFormUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await UserController.loginUser(username, password);
-    if (response) {
-      localStorage.setItem("token", response.token);
-      onLoggedIn(username, response.token);
-    }
+    dispatch(loginUser({ username, password }));
   };
 
   return (
@@ -42,7 +40,7 @@ const LoginView = ({ onLoggedIn }) => {
                     type="text"
                     placeholder="Username"
                     value={username}
-                    onChange={(event) => setUsername(event.target.value)}
+                    onChange={(event) => setFormUsername(event.target.value)}
                     autoComplete="username"
                     minLength="3"
                     maxLength="30"

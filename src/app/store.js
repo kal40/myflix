@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import moviesSlice from "../features/movies/moviesSlice";
-import userSlice from "../features/user/userSlice";
+import moviesReducer from "../features/movies/moviesSlice";
+import userReducer from "../features/user/userSlice";
+import { loadState } from "./localStorage";
 
 export default configureStore({
   reducer: {
-    movies: moviesSlice,
-    user: userSlice,
+    movies: moviesReducer,
+    user: userReducer,
   },
+  preloadedState: loadState(),
 });

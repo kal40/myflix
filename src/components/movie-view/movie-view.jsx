@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
 import { useParams } from "react-router";
@@ -7,7 +8,9 @@ import Row from "react-bootstrap/Row";
 
 import MovieCard from "../movie-card/movie-card";
 
-const MovieView = ({ movies, user, toggleFavorite }) => {
+const MovieView = () => {
+  const user = useSelector((state) => state.user.data);
+  const movies = useSelector((state) => state.movies.data);
   const { movieId: currentMovieId } = useParams();
 
   useEffect(() => {
@@ -15,10 +18,6 @@ const MovieView = ({ movies, user, toggleFavorite }) => {
   }, []);
 
   const movie = movies.find((movie) => movie.id === currentMovieId);
-
-  const handleToggle = (movie) => {
-    toggleFavorite(movie);
-  };
 
   function findSimilarMovies(genreName) {
     return movies.filter(
@@ -52,12 +51,7 @@ const MovieView = ({ movies, user, toggleFavorite }) => {
       <Row className="justify-content-center py-5">
         <h2 className="text-center mb-5">Similar Movies</h2>
         {findSimilarMovies(movie.genre.name).map((movie) => (
-          <MovieCard
-            movie={movie}
-            isFavorite={user.favoriteMovies.includes(movie.id)}
-            toggleFavorite={handleToggle}
-            key={movie.id}
-          />
+          <MovieCard movie={movie} key={movie.id} />
         ))}
       </Row>
     </>

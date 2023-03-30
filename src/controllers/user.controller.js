@@ -1,11 +1,15 @@
 import MyflixAPIService from "../services/myflixAPI.service";
 
 const getUser = async (username, token) => {
+  if (!username || !token) {
+    console.error("Invalid Credentials");
+    return Promise.reject("Invalid Credentials");
+  }
   try {
     const response = await MyflixAPIService.getUser(username, token);
     const { success, message, data } = await response.json();
     if (data) {
-      return { ...data };
+      return data;
     } else {
       alert(message);
     }
@@ -27,6 +31,7 @@ const loginUser = async (username, password) => {
       return data;
     } else if (success) {
       alert(message);
+      return Promise.reject(message);
     } else {
       alert("Login Failed");
     }
@@ -48,7 +53,7 @@ const registerUser = async (username, password, email, birthday) => {
 
     const { success, message, data } = await response.json();
     if (data) {
-      return { ...data };
+      return data;
     } else if (success) {
       alert(message);
     } else {
@@ -82,9 +87,11 @@ const updateUser = async (
     );
     const { success, message, data } = await response.json();
     if (data) {
-      return { ...data };
+      alert("Update Successful");
+      return data;
     } else if (success) {
       alert(message);
+      return Promise.reject(message);
     } else {
       alert(message);
     }
@@ -99,9 +106,10 @@ const deleteUser = async (username, token) => {
     const response = await MyflixAPIService.deleteUser(username, token);
     const { success, message, data } = await response.json();
     if (data) {
-      return { ...data };
+      return data;
     } else if (success) {
       alert(message);
+      return Promise.reject(message);
     } else {
       alert(message);
     }
@@ -120,7 +128,7 @@ const deleteFavoriteMovie = async (user, movie, token) => {
     );
     const { success, message, data } = await response.json();
     if (data) {
-      return { ...data };
+      return data;
     } else {
       alert(message);
     }
@@ -138,7 +146,7 @@ const addFavoriteMovie = async (user, movie, token) => {
     );
     const { success, message, data } = await response.json();
     if (data) {
-      return { ...data };
+      return data;
     } else {
       alert(message);
     }
