@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
@@ -6,17 +7,16 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import avatar from "./person-circle.svg";
+import avatar from "../../assets/person-circle.svg";
 import MovieCard from "../movie-card/movie-card";
+import { deleteUser, updateUser } from "../../features/user/userSlice";
 
-const ProfileView = ({
-  user,
-  favoriteMovies,
-  toggleFavorite,
-  token,
-  onDelete,
-}) => {
-  const [updateUser, setUpdateUser] = useState(false);
+const ProfileView = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.data);
+  const movies = useSelector((state) => state.movies.data);
+  const token = useSelector((state) => state.user.token);
+  const [editUser, setEditUser] = useState(false);
   const [username, setUsername] = useState(user.username);
   const [password, setPassword] = useState(user.password);
   const [email, setEmail] = useState(user.email);
@@ -27,70 +27,26 @@ const ProfileView = ({
     if (birthdayInputRef.current) {
       birthdayInputRef.current.value = formatDate(birthday);
     }
-  }, [updateUser]);
+  }, [editUser]);
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (event) => {
     event.preventDefault();
-
-    const userData = {
-      username: username,
-      password: password,
-      email: email,
-      birthday: birthday,
-    };
     try {
-      const response = await fetch(
-        `https://myflixapi.smartcoder.dev/v1/users/${user.username}`,
-        {
-          method: "PUT",
-          body: JSON.stringify(userData),
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const { success, message, data } = await response.json();
-      if (success) {
-        alert(message);
-        setUpdateUser(false);
-      } else {
-        console.error(message);
-        alert("Update failed");
-      }
-    } catch (error) {
-      console.error(error);
+      await dispatch(
+        updateUser({ user, username, password, email, birthday, token })
+      ).unwrap();
+    } catch (err) {
+      console.error("Failed to update: ", err);
+    } finally {
+      setEditUser(false);
     }
   };
 
   const handleDeleteUser = async () => {
-    try {
-      const response = await fetch(
-        `https://myflixapi.smartcoder.dev/v1/users/${user.username}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const { success, message, data } = await response.json();
-      if (success) {
-        onDelete();
-      } else {
-        alert(message);
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    dispatch(deleteUser({ user, token }));
   };
 
-  const handleToggle = (movie) => {
-    toggleFavorite(movie);
-  };
-
-  const formatDate = (birthday) => {
+  function formatDate(birthday) {
     const date = new Date(birthday);
     const year = date.getFullYear();
     let month = date.getMonth() + 1;
@@ -102,11 +58,11 @@ const ProfileView = ({
       dayOfTheMonth = `0${dayOfTheMonth}`;
     }
     return `${year}-${month}-${dayOfTheMonth}`;
-  };
+  }
 
   return (
-    <React.Fragment>
-      {!updateUser ? (
+    <>
+      {!editUser ? (
         <Row className="d-flex justify-content-center p-4">
           <Col sm={8} md={6} lg={5} xl={4} xxl={3}>
             <Card
@@ -141,7 +97,7 @@ const ProfileView = ({
               </ListGroup>
               <Card.Body>
                 <div className="text-center">
-                  <Button variant="primary" onClick={() => setUpdateUser(true)}>
+                  <Button variant="primary" onClick={() => setEditUser(true)}>
                     EDIT
                   </Button>
                 </div>
@@ -225,7 +181,7 @@ const ProfileView = ({
                     </Button>
                     <Button
                       variant="primary"
-                      onClick={() => setUpdateUser(false)}
+                      onClick={() => setEditUser(false)}
                     >
                       CANCEL
                     </Button>
@@ -238,20 +194,15 @@ const ProfileView = ({
       )}
       <Row className="justify-content-center py-5">
         <h2 className="text-center mb-5">Favorite Movies</h2>
-        {favoriteMovies.length ? (
-          favoriteMovies.map((movie) => (
-            <MovieCard
-              movie={movie}
-              isFavorite={true}
-              toggleFavorite={handleToggle}
-              key={movie.id}
-            />
-          ))
+        {user.favoriteMovies.length ? (
+          movies
+            .filter((movie) => user.favoriteMovies.includes(movie.id))
+            .map((movie) => <MovieCard movie={movie} key={movie.id} />)
         ) : (
           <p>No favorite movies</p>
         )}
       </Row>
-    </React.Fragment>
+    </>
   );
 };
 

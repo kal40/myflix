@@ -4,44 +4,35 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-import myFlixLogo from "../login-view/MyFlix-1.png";
+import myFlixLogo from "../../assets/MyFlix-1.png";
+import UserController from "../../controllers/user.controller";
 
-const SignupView = ({ onSignedUp }) => {
+const SignupView = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const userData = {
-      username: username,
-      password: password,
-      email: email,
-      birthday: birthday,
-    };
-
-    const response = await fetch("https://myflixapi.smartcoder.dev/v1/users", {
-      method: "POST",
-      body: JSON.stringify(userData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const { success, message, data } = await response.json();
-    if (success) {
-      alert(message);
-      onSignedUp();
-    } else {
-      alert("Signup failed");
+    const response = await UserController.registerUser(
+      username,
+      password,
+      email,
+      birthday
+    );
+    if (response) {
+      alert("User successfully registered!");
+      navigate("/login");
     }
   };
 
   return (
-    <React.Fragment>
+    <>
       <Row className="d-flex justify-content-center align-content-center vh-100">
         <Col>
           <Card
@@ -121,7 +112,7 @@ const SignupView = ({ onSignedUp }) => {
           </Card>
         </Col>
       </Row>
-    </React.Fragment>
+    </>
   );
 };
 

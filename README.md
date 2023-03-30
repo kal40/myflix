@@ -22,8 +22,7 @@ Clone the repository:
 
 ```shell
 git clone https://github.com/kal40/myflix.git
-cd movie-api
-
+cd myflix
 ```
 
 then run the next commands:
@@ -39,6 +38,8 @@ npm run dev
 - State routing to navigate between views and share URLs
 - Parcel as its build tool
 - React library and in ES2015+
+- React Router
+- Redux for state management
 - Bootstrap as a UI library for styling and responsiveness
 
 ## Dependencies
@@ -47,7 +48,7 @@ See [`package.json`](https://raw.githubusercontent.com/kal40/myflix/master/packa
 
 ## Future development
 
-- Implement Redux for state management
+- Implement MoviDB import function
 
 ## Known issues
 

@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
 import { useParams } from "react-router";
@@ -7,26 +8,25 @@ import Row from "react-bootstrap/Row";
 
 import MovieCard from "../movie-card/movie-card";
 
-const MovieView = ({
-  movies,
-  findSimilarMovies,
-  favoriteMovies,
-  toggleFavorite,
-}) => {
-  const { movieId } = useParams();
+const MovieView = () => {
+  const user = useSelector((state) => state.user.data);
+  const movies = useSelector((state) => state.movies.data);
+  const { movieId: currentMovieId } = useParams();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const movie = movies.find((b) => b.id === movieId);
+  const movie = movies.find((movie) => movie.id === currentMovieId);
 
-  const handleToggle = (movie) => {
-    toggleFavorite(movie);
-  };
+  function findSimilarMovies(genreName) {
+    return movies.filter(
+      (movie) => movie.genre.name === genreName && movie.id !== currentMovieId
+    );
+  }
 
   return (
-    <React.Fragment>
+    <>
       <div>
         <Image
           src={movie.imagePath}
@@ -50,16 +50,11 @@ const MovieView = ({
       <hr />
       <Row className="justify-content-center py-5">
         <h2 className="text-center mb-5">Similar Movies</h2>
-        {findSimilarMovies(movie.genre.name, movie.id).map((movie) => (
-          <MovieCard
-            movie={movie}
-            isFavorite={favoriteMovies.includes(movie)}
-            toggleFavorite={handleToggle}
-            key={movie.id}
-          />
+        {findSimilarMovies(movie.genre.name).map((movie) => (
+          <MovieCard movie={movie} key={movie.id} />
         ))}
       </Row>
-    </React.Fragment>
+    </>
   );
 };
 

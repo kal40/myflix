@@ -1,14 +1,17 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Image from "react-bootstrap/Image";
 import { Link } from "react-router-dom";
-import myFlixLogo from "./MyFlix-logo.png";
+import { setSearchString } from "../../features/movies/moviesSlice";
 
-const NavigationBar = ({ username, onLoggedOut, onSearch }) => {
-  const handleSearch = (searchString) => {
-    onSearch(searchString);
-  };
+import myFlixLogo from "../../assets/MyFlix-logo.png";
+
+const NavigationBar = ({ onLoggedOut }) => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.data);
+
   return (
     <Navbar
       expand="lg"
@@ -43,13 +46,15 @@ const NavigationBar = ({ username, onLoggedOut, onSearch }) => {
                 placeholder="Search"
                 className=""
                 aria-label="Search"
-                onChange={(event) => handleSearch(event.target.value)}
+                onChange={(event) =>
+                  dispatch(setSearchString(event.target.value))
+                }
               />
             </Form>
           </Nav>
           <Nav className="align-items-center">
             <Nav.Link as={Link} to="/profile">
-              <span>{username}</span>
+              <span>{user.username}</span>
             </Nav.Link>
             <Nav.Link as={Link} to="/profile">
               <svg

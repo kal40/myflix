@@ -1,16 +1,18 @@
 {
   "configurations": [
     {
-      "name": "Launch localhost",
+      "name": "Launch Firefox debug",
       "type": "firefox",
       "request": "launch",
-      "reAttach": true,
-      "url": "http://localhost:1234",
-      "webRoot": "${workspaceFolder}",
+      "url": "http://localhost:1234/",
       "pathMappings": [
         {
-          "url": "http://localhost:1234/__parcel_source_root/src",
-          "path": "vscode-remote://wsl%2Bmyflix/home/kal/repositories/myflix/src"
+          "url": "data:///__parcel_source_root",
+          "path": "${workspaceFolder}"
+        },
+        {
+          "url": "file:///__parcel_source_root/src",
+          "path": "${workspaceFolder}/src"
         }
       ]
     }

@@ -1,22 +1,25 @@
 import { createRoot } from "react-dom/client";
 import React from "react";
-import Container from "react-bootstrap/Container";
-
+import throttle from "lodash.throttle";
 import "./scss/styles.scss";
-import * as bootstrap from "bootstrap";
 import MainView from "./components/main-view/main-view";
+import store from "./app/store";
+import { Provider } from "react-redux";
+import { saveState } from "./app/localStorage";
+
+store.subscribe(
+  throttle(() => {
+    saveState(store.getState());
+  }, 1000)
+);
 
 const MyFlixApplication = () => {
   return (
-    <Container fluid className="min-vh-100">
+    <Provider store={store}>
       <MainView />
-    </Container>
+    </Provider>
   );
 };
 
-// Finds the root of your app
-const container = document.querySelector("#root");
-const root = createRoot(container);
-
-// Tells React to render your app in the root DOM element
+const root = createRoot(document.getElementById("app"));
 root.render(<MyFlixApplication />);

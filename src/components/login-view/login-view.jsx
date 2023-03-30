@@ -1,52 +1,27 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import myFlixLogo from "./MyFlix-1.png";
+import myFlixLogo from "../../assets/MyFlix-1.png";
 import { Link } from "react-router-dom";
 
-const LoginView = ({ onLoggedIn }) => {
-  const [username, setUsername] = useState("");
+import { loginUser, setUsername } from "../../features/user/userSlice";
+
+const LoginView = () => {
+  const dispatch = useDispatch();
+  const [username, setFormUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      const userData = {
-        username: username,
-        password: password,
-      };
-      const response = await fetch(
-        `https://myflixapi.smartcoder.dev/v1/users/login`,
-        {
-          method: "POST",
-          body: JSON.stringify(userData),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const { success, message, data } = await response.json();
-      if (data) {
-        localStorage.setItem("username", username);
-        localStorage.setItem("token", data.token);
-        onLoggedIn(username, data.token);
-      } else if (success) {
-        alert(message);
-      } else {
-        alert("Login Failed");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Login Failed");
-    }
+    dispatch(loginUser({ username, password }));
   };
 
   return (
-    <React.Fragment>
+    <>
       <Row className="d-flex justify-content-center align-content-center vh-100">
         <Col>
           <Card
@@ -65,7 +40,7 @@ const LoginView = ({ onLoggedIn }) => {
                     type="text"
                     placeholder="Username"
                     value={username}
-                    onChange={(event) => setUsername(event.target.value)}
+                    onChange={(event) => setFormUsername(event.target.value)}
                     autoComplete="username"
                     minLength="3"
                     maxLength="30"
@@ -101,7 +76,7 @@ const LoginView = ({ onLoggedIn }) => {
           </Card>
         </Col>
       </Row>
-    </React.Fragment>
+    </>
   );
 };
 
