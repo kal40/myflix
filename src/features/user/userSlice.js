@@ -55,19 +55,20 @@ export const deleteUser = createAsyncThunk(
 
 export const toogleFavorite = createAsyncThunk(
   "user/toogleFavorite",
-  async ({ user, movie, token }) => {
-    const movieIndex = user.favoriteMovies.findIndex((id) => id === movie.id);
+  async ({ user, movieID, token }) => {
+    const username = user.username;
+    const movieIndex = user.favoriteMovies.findIndex((id) => id === movieID);
     if (movieIndex >= 0) {
       const response = await UserController.deleteFavoriteMovie(
-        user,
-        movie,
+        username,
+        movieID,
         token
       );
       return response;
     } else {
       const response = await UserController.addFavoriteMovie(
-        user,
-        movie,
+        username,
+        movieID,
         token
       );
       return response;

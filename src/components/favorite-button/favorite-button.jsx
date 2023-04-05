@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 
 import { toogleFavorite } from "../../features/user/userSlice";
 
-export const FavoriteButton = ({ movie }) => {
+export const FavoriteButton = ({ movieID }) => {
   const user = useSelector((state) => state.user.data);
   const token = useSelector((state) => state.user.token);
   const dispatch = useDispatch();
@@ -13,9 +13,9 @@ export const FavoriteButton = ({ movie }) => {
     <Button
       variant="link"
       className="text-light"
-      onClick={() => dispatch(toogleFavorite({ user, movie, token }))}
+      onClick={() => dispatch(toogleFavorite({ user, movieID, token }))}
     >
-      {user.favoriteMovies.includes(movie.id) ? (
+      {user.favoriteMovies.includes(movieID) ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="32"

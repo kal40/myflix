@@ -65,9 +65,9 @@ const deleteUser = async (username, token) => {
   return response;
 };
 
-const deleteFavoriteMovie = async (user, movie, token) => {
+const deleteFavoriteMovie = async (username, movieID, token) => {
   const response = await fetch(
-    `https://myflixapi.smartcoder.dev/v1/users/${user.username}/movies/${movie.id}`,
+    `https://myflixapi.smartcoder.dev/v1/users/${username}/movies/${movieID}`,
     {
       method: "DELETE",
       headers: {
@@ -79,9 +79,9 @@ const deleteFavoriteMovie = async (user, movie, token) => {
   return response;
 };
 
-const addFavoriteMovie = async (user, movie, token) => {
+const addFavoriteMovie = async (username, movieID, token) => {
   const response = await fetch(
-    `https://myflixapi.smartcoder.dev/v1/users/${user.username}/movies/${movie.id}`,
+    `https://myflixapi.smartcoder.dev/v1/users/${username}/movies/${movieID}`,
     {
       method: "POST",
       headers: {

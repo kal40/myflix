@@ -119,11 +119,11 @@ const deleteUser = async (username, token) => {
   }
 };
 
-const deleteFavoriteMovie = async (user, movie, token) => {
+const deleteFavoriteMovie = async (username, movieID, token) => {
   try {
     const response = await MyflixAPIService.deleteFavoriteMovie(
-      user,
-      movie,
+      username,
+      movieID,
       token
     );
     const { success, message, data } = await response.json();
@@ -137,11 +137,11 @@ const deleteFavoriteMovie = async (user, movie, token) => {
   }
 };
 
-const addFavoriteMovie = async (user, movie, token) => {
+const addFavoriteMovie = async (username, movieID, token) => {
   try {
     const response = await MyflixAPIService.addFavoriteMovie(
-      user,
-      movie,
+      username,
+      movieID,
       token
     );
     const { success, message, data } = await response.json();

@@ -28,7 +28,7 @@ const MovieCard = ({ movie }) => {
           >
             {movie.genre.name}
           </Badge>
-          <FavoriteButton movie={movie} />
+          <FavoriteButton movieID={movie.id} />
         </Card.ImgOverlay>
         <Card.Body className="d-flex flex-column ">
           <Card.Title>
