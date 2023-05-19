@@ -10,6 +10,16 @@ This site was built using [Netlify Build](https://www.netlify.com/products/build
 
 [LIVE DEMO](https://myflix.smartcoder.dev/)
 
+## Key Features
+
+- Single-page application (SPA)
+- State routing to navigate between views and share URLs
+- Parcel as its build tool
+- React library and in ES2015+
+- React Router
+- Redux for state management
+- Bootstrap as a UI library for styling and responsiveness
+
 ## Getting started
 
 ### Prerequisites
@@ -31,16 +41,6 @@ then run the next commands:
 npm install
 npm run dev
 ```
-
-## Key Features
-
-- Single-page application (SPA)
-- State routing to navigate between views and share URLs
-- Parcel as its build tool
-- React library and in ES2015+
-- React Router
-- Redux for state management
-- Bootstrap as a UI library for styling and responsiveness
 
 ## Dependencies
 
