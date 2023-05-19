@@ -7,7 +7,7 @@ import Col from "react-bootstrap/Col";
 import { Link, useNavigate } from "react-router-dom";
 
 import myFlixLogo from "../../assets/MyFlix-1.png";
-import UserController from "../../controllers/user.controller";
+import MyflixAPIService from "../../services/myflixAPI.service";
 
 const SignupView = () => {
   const [username, setUsername] = useState("");
@@ -19,7 +19,7 @@ const SignupView = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const response = await UserController.registerUser(
+    const response = await MyflixAPIService.registerUser(
       username,
       password,
       email,

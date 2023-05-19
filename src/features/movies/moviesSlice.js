@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import MovieController from "../../controllers/movie.controller";
+import MyflixAPIService from "../../services/myflixAPI.service";
 
 const initialState = {
   data: [],
@@ -11,7 +11,7 @@ const initialState = {
 export const fetchMovies = createAsyncThunk(
   "movies/fetchMovies",
   async (token) => {
-    return await MovieController.fetchMovies(token);
+    return await MyflixAPIService.fetchMovies(token);
   }
 );
 

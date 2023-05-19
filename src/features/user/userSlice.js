@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import UserController from "../../controllers/user.controller";
+import MyflixAPIService from "../../services/myflixAPI.service";
 
 const initialState = {
   data: {
@@ -16,7 +16,7 @@ const initialState = {
 export const fetchUser = createAsyncThunk(
   "user/fetchUser",
   async ({ username, token }) => {
-    const response = await UserController.getUser(username, token);
+    const response = await MyflixAPIService.getUser(username, token);
     return response;
   }
 );
@@ -24,8 +24,8 @@ export const fetchUser = createAsyncThunk(
 export const loginUser = createAsyncThunk(
   "user/loginUser",
   async ({ username, password }) => {
-    const token = await UserController.loginUser(username, password);
-    const user = await UserController.getUser(username, token.token);
+    const token = await MyflixAPIService.loginUser(username, password);
+    const user = await MyflixAPIService.getUser(username, token.token);
     return { user, token };
   }
 );
@@ -33,7 +33,7 @@ export const loginUser = createAsyncThunk(
 export const updateUser = createAsyncThunk(
   "user/updateUser",
   async ({ user, username, password, email, birthday, token }) => {
-    const response = await UserController.updateUser(
+    const response = await MyflixAPIService.updateUser(
       user.username,
       username,
       password,
@@ -48,7 +48,7 @@ export const updateUser = createAsyncThunk(
 export const deleteUser = createAsyncThunk(
   "user/deleteUser",
   async ({ user, token }) => {
-    const response = await UserController.deleteUser(user.username, token);
+    const response = await MyflixAPIService.deleteUser(user.username, token);
     return response;
   }
 );
@@ -59,14 +59,14 @@ export const toogleFavorite = createAsyncThunk(
     const username = user.username;
     const movieIndex = user.favoriteMovies.findIndex((id) => id === movieID);
     if (movieIndex >= 0) {
-      const response = await UserController.deleteFavoriteMovie(
+      const response = await MyflixAPIService.deleteFavoriteMovie(
         username,
         movieID,
         token
       );
       return response;
     } else {
-      const response = await UserController.addFavoriteMovie(
+      const response = await MyflixAPIService.addFavoriteMovie(
         username,
         movieID,
         token
