@@ -147,7 +147,7 @@ const deleteUser = async (username, token) => {
 
 const deleteFavoriteMovie = async (username, movieID, token) => {
   try {
-    const response = fetch(`${apiURL}/users/${username}/movies/${movieID}`, {
+    const response = await fetch(`${apiURL}/users/${username}/movies/${movieID}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
