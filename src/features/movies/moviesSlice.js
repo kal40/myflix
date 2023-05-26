@@ -3,6 +3,7 @@ import MyflixAPIService from "../../services/myflixAPI.service";
 
 const initialState = {
   data: [],
+  userMovieImageList: {},
   searchString: "",
   status: "idle",
   error: null,
@@ -12,6 +13,21 @@ export const fetchMovies = createAsyncThunk(
   "movies/fetchMovies",
   async (token) => {
     return await MyflixAPIService.fetchMovies(token);
+  }
+);
+
+export const fetchUserMovieImageList = createAsyncThunk(
+  "movies/fetchUserMovieImageList",
+  async ({ userId, movieId, token }) => {
+    const response = await MyflixAPIService.fetchUserMovieImageList(
+      userId,
+      movieId,
+      token
+    );
+    return {
+      movieId: movieId,
+      imageList: response.Contents,
+    };
   }
 );
 
@@ -38,6 +54,10 @@ const moviesSlice = createSlice({
       .addCase(fetchMovies.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+      })
+      .addCase(fetchUserMovieImageList.fulfilled, (state, action) => {
+        state.userMovieImageList[action.payload.movieId] =
+          action.payload.imageList;
       });
   },
 });

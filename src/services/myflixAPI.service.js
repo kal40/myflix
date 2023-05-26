@@ -1,4 +1,4 @@
-const apiURL = "https://myflixapi.smartcoder.dev/v1";
+const apiURL = "http://myflix-alb-1785359669.eu-central-1.elb.amazonaws.com/v1";
 
 const getUser = async (username, token) => {
   if (!username || !token) {
@@ -147,13 +147,16 @@ const deleteUser = async (username, token) => {
 
 const deleteFavoriteMovie = async (username, movieID, token) => {
   try {
-    const response = fetch(`${apiURL}/users/${username}/movies/${movieID}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `${apiURL}/users/${username}/movies/${movieID}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const { success, message, data } = await response.json();
     if (data) {
       return data;
@@ -214,6 +217,69 @@ const fetchMovies = async (token) => {
   }
 };
 
+const fetchUserMovieImageList = async (userId, movieId, token) => {
+  try {
+    const response = await fetch(
+      `${apiURL}/movies/${userId}/userimages/${movieId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const { success, message, data } = await response.json();
+    if (data) {
+      return data;
+    } else {
+      alert(message);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const fetchUserMovieImage = async (objectKey, token) => {
+  try {
+    const response = await fetch(`${apiURL}/movies/userimages/${objectKey}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response) {
+      const data = await response.blob();
+      return data;
+    } else {
+      alert(message);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const uploadUserMovieImage = async (userId, movieId, formData, token) => {
+  try {
+    const response = await fetch(
+      `${apiURL}/movies/${userId}/userimages/${movieId}`,
+      {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const { success, message, data } = await response.json();
+    if (data) {
+      return data;
+    } else {
+      alert(message);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export default {
   getUser,
   loginUser,
@@ -223,4 +289,7 @@ export default {
   deleteFavoriteMovie,
   addFavoriteMovie,
   fetchMovies,
+  fetchUserMovieImageList,
+  fetchUserMovieImage,
+  uploadUserMovieImage,
 };
